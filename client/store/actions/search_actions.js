@@ -1,4 +1,8 @@
-import { SEARCHING, SEARCH_COMPLETE, SEARCH_ERROR } from '../constants';
+export const SEARCHING = 'searching';
+
+export const SEARCH_COMPLETE = 'search_complete';
+
+export const SEARCH_ERROR = 'search_error';
 
 let apiHelper;
 
@@ -7,9 +11,9 @@ export function fetchSearchResults(searchTerm, index = 0) {
         dispatch(requestSearchResults(searchTerm))
 
         return apiHelper.search(searchTerm, index)
-        .then(results => 
-            dispatch(recieveSearchResults(searchTerm, results)), 
-            err => 
+        .then(results =>
+            dispatch(recieveSearchResults(searchTerm, results)),
+            err =>
             dispatch(searchError())
         );
     }
