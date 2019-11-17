@@ -71,7 +71,10 @@ function UploadForm({uploadStatus, uploadListing, categories}: props) {
     dispatch,
   ] = useReducer(reducer, initialState);
 
-  useEffect(() => dispatch({type: actions.SET_CATEGORY, value: categories[0].id}), []);
+  useEffect(
+    () => dispatch({type: actions.SET_CATEGORY, value: categories[0].id}),
+    [],
+  );
 
   return (
     <View style={styles.container}>
@@ -91,14 +94,18 @@ function UploadForm({uploadStatus, uploadListing, categories}: props) {
         <Text>Show Contact</Text>
         <Switch
           value={showContact}
-          onValueChange={value => dispatch({type: actions.SET_SHOW_CONTACT, value})}
+          onValueChange={value =>
+            dispatch({type: actions.SET_SHOW_CONTACT, value})
+          }
         />
       </View>
       <View>
         <Text>Show Address</Text>
         <Switch
           value={showAddress}
-          onValueChange={value => dispatch({type: actions.SET_SHOW_ADDRESS, value})}
+          onValueChange={value =>
+            dispatch({type: actions.SET_SHOW_ADDRESS, value})
+          }
         />
       </View>
       <DraggableFlatList
@@ -106,7 +113,9 @@ function UploadForm({uploadStatus, uploadListing, categories}: props) {
         renderItem={({item}) => <Image source={item} />}
         keyExtractor={item => `${item.key}`}
         scrollPercent={5}
-        onMoveEnd={({data}) => dispatch({type: actions.SET_IMAGES, value: data})}
+        onMoveEnd={({data}) =>
+          dispatch({type: actions.SET_IMAGES, value: data})
+        }
       />
       <Button title="Post" style={styles.button} onPress={uploadListing} />
     </View>

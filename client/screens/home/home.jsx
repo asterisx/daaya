@@ -9,8 +9,8 @@ type Props = {
   onListingClick: ({id: number}) => void,
 };
 
-const Search = ({listings, onListingClick}: Props) => (
+const Home = ({listings, onListingClick}: Props) => (
   <Listings listings={listings} onListingClick={onListingClick} />
 );
 
-export default Search;
+export default Home;

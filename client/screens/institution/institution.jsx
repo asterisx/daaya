@@ -1,76 +1,41 @@
-import Posts from './Posts';
-import Info from './Info';
+// @flow
 
-const render = {
-  header: ({institutionName, insitutionLogo, institutionBanner}) => {
-    <View style={styles.headerContainer}>
-      <View style={styles.coverContainer}>
-        <ImageBackground
-          source={{
-            uri: institutionBanner,
-          }}
-          style={styles.coverImage}>
-          <View style={styles.coverMetaContainer}>
-            <Text style={styles.coverName}>{institutionName}</Text>
-          </View>
-        </ImageBackground>
-      </View>
-      <View style={styles.profileImageContainer}>
-        <Image
-          source={{
-            uri: insitutionLogo,
-          }}
-          style={styles.profileImage}
-        />
-      </View>
-    </View>;
-  },
+import React, {useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {Bio, Info, Posts} from '../../common/components';
+import type {bio, institutionInfo, post} from "../../common/types";
 
-  posts: posts => {
-    <Posts posts={posts} />;
-  },
+type Props = {
+    bio: bio,
+    info: institutionInfo,
+    posts: Array<post>
+}
 
-  requirements: requirements => {
-    <Posts posts={posts} />;
-  },
-
-  info: institutionInfo => {
-    <Info {...institutionInfo} />;
-  },
-
-  scene: (key, posts, requirements, institutionInfo) => {
-    switch (key) {
-      case '1':
-        return this.posts(posts);
-      case '2':
-        return this.posts(requirements);
-      case '3':
-        return this.info(institutionInfo);
-      default:
-        return <View />;
-    }
-  },
-
-  tabLabel: () => {},
-
-  pager: () => {},
+const sections = {
+  posts: 'posts',
+  info: 'info',
 };
 
-const handle = {
-  indexChange: () => {},
+function InstitutionPage({bio, info, posts}: Props) {
+  const [selectedSection, setSelectedSection] = useState(sections.posts);
 
-  openPost: () => {},
-
-  openRequirement: () => {},
-};
-
-const InstitutionPage = ({
-  posts,
-  requirements,
-  institutionName,
-  institutionInfo,
-  institutionBanner,
-  insitutionLogo,
-}) => {};
+  return (
+    <View>
+      <Bio {...bio} />
+      {selectedSection === sections.posts && (
+        <Posts posts={posts} onPostClicked={} />
+      )}
+      {selectedSection === sections.info && <Info {...info} />}
+      <View>
+        <TouchableOpacity onPress={() => setSelectedSection(sections.posts)}>
+          <Text>Posts</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setSelectedSection(sections.info)}>
+          <Text>Info</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
 
 export default InstitutionPage;
