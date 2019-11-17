@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
+import ImagePicker from 'react-native-image-picker';
 import {connect} from 'react-redux';
 import {uploadListing} from '../thunks';
 import {styles} from './styles';
@@ -26,6 +27,26 @@ type props = {
     showAddress: boolean,
     showContact: boolean,
   }) => void,
+};
+
+const showImagePicker = ({
+  callback,
+}: {
+  callback: ({source: string}) => void,
+}) => {
+  const options = {
+    title: 'Add Image',
+    storageOptions: {
+      path: 'images',
+    },
+  };
+
+  ImagePicker.showImagePicker(options, response => {
+    if (!response.didCancel && !response.error) {
+      const source = {uri: 'data:image/jpeg;base64,' + response.data};
+      callback({source});
+    }
+  });
 };
 
 const actions = {
@@ -115,6 +136,15 @@ function UploadForm({uploadStatus, uploadListing, categories}: props) {
         scrollPercent={5}
         onMoveEnd={({data}) =>
           dispatch({type: actions.SET_IMAGES, value: data})
+        }
+      />
+      <Button
+        title="+Add Image"
+        onPress={() =>
+          showImagePicker({
+            callback: ({source}) =>
+              dispatch({type: actions.ADD_IMAGE, value: source}),
+          })
         }
       />
       <Button title="Post" style={styles.button} onPress={uploadListing} />
