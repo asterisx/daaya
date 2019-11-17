@@ -1,3 +1,5 @@
+// @flow
+
 import React, {useEffect, useReducer} from 'react';
 import {
   Button,
