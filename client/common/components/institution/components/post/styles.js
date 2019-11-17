@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 6,
-    width: Dimensions.get('window').width * 1,
+    width: Dimensions.get('window').width,
   },
   postImage: {
     backgroundColor: 'rgba(0, 0, 0, 0.075)',
