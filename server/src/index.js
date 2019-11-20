@@ -1,5 +1,5 @@
 import express from 'express';
-import {Posts} from './db';
+import {Institutions, Posts} from './db';
 const app = express();
 const port = 3000;
 
@@ -10,5 +10,7 @@ app.put("/post", (req, res) => {
     Posts.push(newCompany);
     res.json(newCompany);
 });
+
+app.get("/institutions", (req, res) => res.json(Institutions));
 
 app.listen(port);
