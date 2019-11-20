@@ -1,2 +1,1 @@
-export * from './new_listing.reducer';
-export * from './search.reducer';
+export * from './listings.reducer';
