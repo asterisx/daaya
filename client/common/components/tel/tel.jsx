@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Linking, Text, TouchableOpacity} from 'react-native';
-import type {telephone} from '../../../../../../types';
+import type {telephone} from '../../types';
 
 const Tel = ({name, number}: telephone) => (
   <TouchableOpacity onPress={() => Linking.openURL(`tel:${number}`)}>

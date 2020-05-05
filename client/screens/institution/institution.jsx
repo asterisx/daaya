@@ -8,7 +8,8 @@ import type {bio, institutionInfo, post} from "../../common/types";
 type Props = {
     bio: bio,
     info: institutionInfo,
-    posts: Array<post>
+    posts: Array<post>,
+    onPostClicked: ({id: number}) => void
 }
 
 const sections = {
@@ -16,14 +17,14 @@ const sections = {
   info: 'info',
 };
 
-function InstitutionPage({bio, info, posts}: Props) {
+function InstitutionPage({bio, info, posts, onPostClicked}: Props) {
   const [selectedSection, setSelectedSection] = useState(sections.posts);
 
   return (
     <View>
       <Bio {...bio} />
       {selectedSection === sections.posts && (
-        <Posts posts={posts} onPostClicked={} />
+        <Posts posts={posts} onPostClicked={onPostClicked} />
       )}
       {selectedSection === sections.info && <Info {...info} />}
       <View>

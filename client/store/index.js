@@ -1,10 +1,10 @@
 import logger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import {createStore, applyMiddleware, compose} from 'redux';
+import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import axios from 'axios';
 import ReduxAxiosMiddleware from 'redux-axios-middleware';
 
-import reducers from '~/reducers';
+import reducers from './reducers';
 
 const client = axios.create({
   baseURL: 'http://localhost:3000/',
@@ -22,7 +22,7 @@ const devToolsMiddleware = window.devToolsExtension
   : f => f;
 
 const store = createStore(
-  reducers,
+  combineReducers(reducers),
   compose(
     middleWares,
     devToolsMiddleware,
