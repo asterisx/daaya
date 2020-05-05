@@ -1,1 +1,2 @@
-export * from './listings.thunk';
+export * from './listings';
+export * from './listing';

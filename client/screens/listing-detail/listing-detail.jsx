@@ -9,7 +9,7 @@ import {styles} from './styles';
 
 type Props = {
     images: Array<string>,
-    title: text,
+    title: string,
     category: category,
     address?: address
     telephone?: telephone,
