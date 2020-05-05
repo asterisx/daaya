@@ -3,7 +3,7 @@
 import React from 'react';
 import {Image, Text, View} from 'react-native';
 import Swiper from 'react-native-swiper';
-import {Address, Tel} from "../../common/components/institution/components/info/components";
+import {Address, Tel} from "../../common/components";
 import type {address, category, telephone} from "../../common/types";
 import {styles} from './styles';
 
@@ -11,7 +11,7 @@ type Props = {
     images: Array<string>,
     title: string,
     category: category,
-    address?: address
+    address?: address,
     telephone?: telephone,
 }
 

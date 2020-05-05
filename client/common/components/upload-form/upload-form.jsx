@@ -13,14 +13,14 @@ import {
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import ImagePicker from 'react-native-image-picker';
 import {connect} from 'react-redux';
-import {uploadListing} from '../thunks';
+import {addListing} from '../../../store/thunks';
 import {styles} from './styles';
 import type {category} from '../../types';
 
 type props = {
   uploadStatus: string,
   categories: Array<category>,
-  uploadListing: ({
+  addListing: ({
     title: string,
     category: number,
     images: Array<string>,
@@ -86,7 +86,7 @@ const reducer = (state, action) => {
   }
 };
 
-function UploadForm({uploadStatus, uploadListing, categories}: props) {
+function UploadForm({uploadStatus, addListing, categories}: props) {
   const [
     {title, images, category, showAddress, showContact},
     dispatch,
@@ -147,11 +147,11 @@ function UploadForm({uploadStatus, uploadListing, categories}: props) {
           })
         }
       />
-      <Button title="Post" style={styles.button} onPress={uploadListing} />
+      <Button title="Post" style={styles.button} onPress={addListing} />
     </View>
   );
 }
 
 const mapStateToProps = ({uploadStatus}) => ({uploadStatus});
 
-export default connect(mapStateToProps, {uploadListing})(UploadForm);
+export default connect(mapStateToProps, {addListing})(UploadForm);

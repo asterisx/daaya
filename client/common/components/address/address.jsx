@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Platform, Linking, Text, TouchableOpacity, View} from 'react-native';
-import type {address} from '../../../../../../types';
+import type {address} from '../../types';
 
 const Address = ({address, location}: address) => (
   <View>
