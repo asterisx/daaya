@@ -1,1 +1,4 @@
-export * from './listings.reducer';
+import Listings from './listings';
+import Listing from './listing';
+
+export {Listings, Listing};

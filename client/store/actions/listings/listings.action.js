@@ -5,24 +5,36 @@ export const GET_LISTINGS = 'GET_LISTINGS';
 export const GET_LISTINGS_SUCCESS = 'GET_LISTINGS_SUCCESS';
 export const GET_LISTINGS_ERROR = 'GET_LISTINGS_ERROR';
 
+export const fetchingListingsStatuses = {
+  FETCHING: 'FETCHING',
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR'
+};
+
+export const addListingStatuses = {
+  ADDING: 'ADDING',
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+}
+
 export const addListingSuccess = ({listing}) => ({
   type: ADD_LISTING_SUCCESS,
   listing,
 });
 
-export const addListingError = ({listing}) => ({
+export const addListingError = ({listing, error}) => ({
   type: ADD_LISTING_ERROR,
   listing,
+  error
 });
 
 
-
-export const listingsReceived = ({listings, searchTerm, count, index}) => ({
+export const listingsReceived = ({listings, searchTerm, prev, next}) => ({
   type: GET_LISTINGS_SUCCESS,
   listings,
   searchTerm,
-  count,
-  index,
+  prev,
+  next
 });
 
 export const listingsError = ({searchTerm}) => ({
