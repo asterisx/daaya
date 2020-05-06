@@ -1,16 +1,38 @@
 // @flow
 
-import React from 'react';
-import {Listings} from '../../common/components';
-import type {post} from '../../common/types';
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import {Listings, SearchHeader} from '../../common/components';
 
 type Props = {
-  listings: Array<post>,
-  onListingClick: ({id: number}) => void,
+  navigation: *,
 };
 
-const Search = ({listings, onListingClick}: Props) => (
-  <Listings listings={listings} onListingClick={onListingClick} />
-);
+const Search = ({navigation}: Props) => {
+  const [tempSearchTerm, setTempSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchSubmit, setOnSearchSubmit] = useState(false);
+
+  return (
+    <View>
+      <SearchHeader
+        onSearchChange={({searchTerm}) => setTempSearchTerm(searchTerm)}
+        searchTerm={tempSearchTerm}
+        onSearchSubmit={() => {
+          setSearchTerm(tempSearchTerm);
+          setOnSearchSubmit(true);
+        }}
+        onGoBack={() => navigation.goBack()}
+        searchOpen
+      />
+      {searchSubmit && (
+        <Listings
+          searchTerm={searchTerm}
+          onListingClick={({id}) => navigation.navigate('ListingDetail', {id})}
+        />
+      )}
+    </View>
+  );
+};
 
 export default Search;

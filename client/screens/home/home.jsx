@@ -1,36 +1,19 @@
 // @flow
 
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
-import {getListings} from '../../store/thunks';
+import React from 'react';
 import {Listings} from '../../common/components';
-import type {post} from '../../common/types';
 
 type Props = {
-  listings: Array<post>,
-  getListings: ({searchTerm: string, link: string}) => void,
-  onListingClick: ({id: number}) => void,
+  navigation: *
 };
 
-const Home = ({listings, getListings, onListingClick}: Props) => {
-  useEffect(getListings, []);
-  return <Listings listings={listings} onListingClick={onListingClick} />;
-};
-
-const mapStateToProps = ({listings}) => {
-  const homeListings = listings.searchResults.find(
-    ({searchTerm}) => !!searchTerm,
+const Home = ({navigation}: Props) => {
+  return (
+    <Listings
+      searchTerm=""
+      onListingClick={({id}) => navigation.navigate('ListingDetail', {id})}
+    />
   );
-  return {
-    listings: homeListings,
-  };
 };
 
-const mapDispatchToProps = {
-  getListings,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Home);
+export default Home;
