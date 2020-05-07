@@ -1,3 +1,5 @@
+// @flow
+
 import {
   GET_LISTINGS,
   addListingSuccess,
@@ -6,8 +8,9 @@ import {
   listingsReceived,
   ADD_LISTING,
 } from '../../actions';
+import type {listingType} from "../../../common/types";
 
-export const addListing = listing => async dispatch => {
+export const addListing = (listing: listingType) => async dispatch => {
   dispatch({
     type: ADD_LISTING,
     payload: {
@@ -28,7 +31,7 @@ export const addListing = listing => async dispatch => {
   });
 };
 
-export const getListings = ({searchTerm, link}) => async dispatch => {
+export const getListings = ({searchTerm, link}: {searchTerm: string, link: string}) => async dispatch => {
   dispatch({
     type: GET_LISTINGS,
     payload: {

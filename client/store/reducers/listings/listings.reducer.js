@@ -6,7 +6,7 @@ import {
   GET_LISTINGS_SUCCESS,
   GET_LISTINGS_ERROR,
   addListingStatuses,
-  fetchingListingsStatuses,
+  fetchingStatuses,
 } from '../../actions';
 
 const initialState = {
@@ -73,7 +73,7 @@ const ListingsReducer = (state = initialState, action) => {
               al.searchTerm === searchTerm
                 ? {
                     ...al,
-                    fetchingListingsStatus: fetchingListingsStatuses.FETCHING,
+                    fetchingListingsStatus: fetchingStatuses.FETCHING,
                   }
                 : al,
             )
@@ -94,7 +94,7 @@ const ListingsReducer = (state = initialState, action) => {
                 listings: listings.concat(al.listings),
                 prev,
                 next,
-                fetchingListingsStatus: fetchingListingsStatuses.SUCCESS,
+                fetchingListingsStatus: fetchingStatuses.SUCCESS,
               }
             : al,
         ),
@@ -108,7 +108,7 @@ const ListingsReducer = (state = initialState, action) => {
           al.searchTerm === searchTerm
             ? {
                 ...al,
-                fetchingListingsStatus: fetchingListingsStatuses.ERROR,
+                fetchingListingsStatus: fetchingStatuses.ERROR,
               }
             : al,
         ),

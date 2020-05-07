@@ -47,3 +47,18 @@ export type bio = {
   institutionName: string,
   bannerSrc: string,
 };
+
+export type listingType = {
+  id: string,
+  images: Array<string>,
+  title: string,
+  category: category,
+  address?: address,
+  telephone?: telephone,
+};
+
+export type institutionType = {
+  bio: bio,
+  info: institutionInfo,
+  posts: Array<post>
+};

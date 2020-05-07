@@ -1,6 +1,8 @@
+// @flow
+
 import {GET_LISTING, listingError, listingReceived} from '../../actions';
 
-export const getListing = ({id}) => async dispatch => {
+export const getListing = ({id}: {id: string}) => async dispatch => {
   dispatch({
     type: GET_LISTING,
     payload: {

@@ -5,12 +5,6 @@ export const GET_LISTINGS = 'GET_LISTINGS';
 export const GET_LISTINGS_SUCCESS = 'GET_LISTINGS_SUCCESS';
 export const GET_LISTINGS_ERROR = 'GET_LISTINGS_ERROR';
 
-export const fetchingListingsStatuses = {
-  FETCHING: 'FETCHING',
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR'
-};
-
 export const addListingStatuses = {
   ADDING: 'ADDING',
   SUCCESS: 'SUCCESS',

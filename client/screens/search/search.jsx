@@ -3,23 +3,24 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import {Listings, SearchHeader} from '../../common/components';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
 
 type Props = {
-  navigation: *,
+  navigation: NavigationStackScreenProps,
 };
 
 const Search = ({navigation}: Props) => {
-  const [tempSearchTerm, setTempSearchTerm] = useState('');
+  const [query, setQuery] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [searchSubmit, setOnSearchSubmit] = useState(false);
 
   return (
     <View>
       <SearchHeader
-        onSearchChange={({searchTerm}) => setTempSearchTerm(searchTerm)}
-        searchTerm={tempSearchTerm}
+        onSearchChange={({searchTerm}) => setQuery(searchTerm)}
+        searchTerm={query}
         onSearchSubmit={() => {
-          setSearchTerm(tempSearchTerm);
+          setSearchTerm(query);
           setOnSearchSubmit(true);
         }}
         onGoBack={() => navigation.goBack()}

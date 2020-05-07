@@ -1,23 +1,33 @@
 // @flow
 
-import React, {useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import {Bio, Info, Posts} from '../../common/components';
-import type {bio, institutionInfo, post} from "../../common/types";
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Button,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
+import {connect} from 'react-redux';
 
-type Props = {
-    bio: bio,
-    info: institutionInfo,
-    posts: Array<post>,
-    onPostClicked: ({id: number}) => void
-}
+import {Bio, Info, Posts} from '../../common/components';
+import type {institutionType} from '../../common/types';
+import {useDelayedLoader} from '../../common/hooks';
+import {getInstitute} from '../../store/thunks';
+import {fetchingStatuses} from '../../store/actions';
+import {styles} from '../../common/styles';
+
+type InstitutionProps = institutionType & {
+  onPostClicked: ({id: number}) => void,
+};
 
 const sections = {
   posts: 'posts',
   info: 'info',
 };
 
-function InstitutionPage({bio, info, posts, onPostClicked}: Props) {
+const Institution = ({bio, info, posts, onPostClicked}: InstitutionProps) => {
   const [selectedSection, setSelectedSection] = useState(sections.posts);
 
   return (
@@ -37,6 +47,83 @@ function InstitutionPage({bio, info, posts, onPostClicked}: Props) {
       </View>
     </View>
   );
-}
+};
 
-export default InstitutionPage;
+type Props = {
+  navigation: NavigationStackScreenProps,
+  getInstitute: ({id: string}) => string,
+  institute: institutionType | {fetchingInstituteStatus: string},
+  onPostClicked: ({id: number}) => void,
+};
+
+const InstitutionPage = ({
+  navigation,
+  getInstitute,
+  institute,
+  onPostClicked,
+}: Props) => {
+  const showLoader = useDelayedLoader(
+    institute.fetchingListingStatus === fetchingStatuses.FETCHING,
+  );
+
+  useEffect(async () => {
+    if (institute.fetchingListingStatus === fetchingStatuses.NONE) {
+      await getInstitute({id: navigation.getParam('id')});
+    }
+  }, [listing.fetchingListingStatus]);
+
+  if (institute.fetchingListingStatus === fetchingStatuses.SUCCESS) {
+    return (
+      <Institution
+        bio={institute.bio}
+        info={institute.info}
+        posts={institute.posts}
+        onPostClicked={onPostClicked}
+      />
+    );
+  } else if (
+    institute.fetchingListingStatus === fetchingStatuses.FETCHING
+  ) {
+    return showLoader ? (
+      <View style={styles.fullScreenContainer}>
+        <ActivityIndicator />
+        <Text style={styles.marginTop20}>Loading...</Text>
+      </View>
+    ) : null;
+  } else if (
+    institute.fetchingListingStatus === fetchingStatuses.ERROR
+  ) {
+    return (
+      <View style={styles.fullScreenContainer}>
+        <Text>Unable to fetch the listing</Text>
+        <Button
+          style={styles.marginTop20}
+          title="Retry"
+          onPress={() => getInstitute({id: navigation.getParam('id')})}
+        />
+      </View>
+    );
+  }
+};
+
+const mapStateToProps = (
+  {Institutes},
+  {navigation}: {navigation: NavigationStackScreenProps},
+) => {
+  const instituteId = navigation.getParam('id');
+  const institute = Institutes.find(({id}) => id === instituteId);
+  return {
+    institute: institute || {
+      fetchingInstituteStatus: fetchingStatuses.NONE,
+    },
+  };
+};
+
+const mapDispatchToProps = {
+  getInstitute,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(InstitutionPage);

@@ -1,20 +1,13 @@
 import {
-  fetchingListingStatuses,
   GET_LISTING,
   GET_LISTING_ERROR,
   GET_LISTING_SUCCESS,
-} from '../../actions/listing';
-import {
-  fetchingListingsStatuses,
-  GET_LISTINGS,
-  GET_LISTINGS_ERROR,
-  GET_LISTINGS_SUCCESS,
-} from '../../actions/listings';
-import ListingsReducer from "../listings/listings.reducer";
+  fetchingStatuses
+} from '../../actions';
 
 const initialState = [];
 
-const ListingReducer = (state = initialState, action) => {
+const ListingDetailReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_LISTING: {
       const {id} = action;
@@ -22,7 +15,7 @@ const ListingReducer = (state = initialState, action) => {
         ...state,
         {
           id,
-          fetchingListingStatus: fetchingListingStatuses.FETCHING,
+          fetchingListingStatus: fetchingStatuses.FETCHING,
         },
       ];
     }
@@ -32,7 +25,7 @@ const ListingReducer = (state = initialState, action) => {
         lis.id === listing.id
           ? {
               ...listing,
-              fetchingListingStatus: fetchingListingStatuses.SUCCESS,
+              fetchingListingStatus: fetchingStatuses.SUCCESS,
             }
           : lis,
       );
@@ -43,7 +36,7 @@ const ListingReducer = (state = initialState, action) => {
         lis.id === id
           ? {
               ...lis,
-              fetchingListingStatus: fetchingListingStatuses.ERROR,
+              fetchingListingStatus: fetchingStatuses.ERROR,
             }
           : lis,
       );
@@ -53,4 +46,4 @@ const ListingReducer = (state = initialState, action) => {
   }
 };
 
-export default ListingReducer;
+export default ListingDetailReducer;

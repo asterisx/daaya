@@ -2,9 +2,10 @@
 
 import React from 'react';
 import {Listings} from '../../common/components';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
 
 type Props = {
-  navigation: *
+  navigation: NavigationStackScreenProps,
 };
 
 const Home = ({navigation}: Props) => {

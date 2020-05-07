@@ -1,12 +1,12 @@
 // @flow
 
 import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
 import {Text, View, Image, ScrollView, TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-elements';
 import type {post} from '../../types';
 import {styles} from './styles';
 import {getListings} from '../../../store/thunks/listings';
-import {connect} from "react-redux";
 
 type Props = {
   listings: Array<post>,
@@ -42,8 +42,8 @@ const Listings = ({listings, onListingClick, searchTerm, next}: Props) => {
   );
 };
 
-const mapStateToProps = ({listings}, {searchTerm: stInProps}) => {
-  const homeListings = listings.searchResults.find(
+const mapStateToProps = ({Listings}, {searchTerm: stInProps}) => {
+  const homeListings = Listings.searchResults.find(
     ({searchTerm}) => searchTerm === stInProps,
   );
   return {
@@ -56,6 +56,6 @@ const mapDispatchToProps = {
 };
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
+  mapStateToProps,
+  mapDispatchToProps,
 )(Listings);

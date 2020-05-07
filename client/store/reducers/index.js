@@ -1,4 +1,5 @@
 import Listings from './listings';
-import Listing from './listing';
+import ListingDetails from './listing-detail';
+import Institutes from './institution';
 
-export default {Listings, Listing};
+export default {Institutes, Listings, ListingDetails};
