@@ -1,44 +1,61 @@
+// @flow
+
 import {
   GET_INSTITUTE,
   GET_INSTITUTE_SUCCESS,
   GET_INSTITUTE_ERROR,
   fetchingStatuses,
 } from '../../actions';
+import type {institutionType, listingType} from '../../../common/types';
+import type {instituteErrorType, instituteReceivedType} from '../../actions';
 
-const initialState = [];
+type institution = institutionType & {
+  +fetchingInstituteStatus: fetchingStatuses.FETCHING | fetchingStatuses.ERROR | fetchingStatuses.SUCCESS,
+};
 
-const ListingDetailReducer = (state = initialState, action) => {
+type inCompleteInstitution = {
+  +id: string,
+  +fetchingInstituteStatus: fetchingStatuses.FETCHING | fetchingStatuses.ERROR | fetchingStatuses.SUCCESS,
+};
+
+type ItemType = institution | inCompleteInstitution;
+
+type State = Array<ItemType>;
+
+const initialState: State = [];
+
+const InstitutionReducer = (
+  state: State = initialState,
+  action: instituteReceivedType | instituteErrorType,
+): State => {
   switch (action.type) {
     case GET_INSTITUTE: {
-      const {id} = action;
-      return [
-        ...state,
-        {
-          id,
-          fetchingInstituteStatus: fetchingStatuses.FETCHING,
-        },
-      ];
+      const {id}: {id: string} = action;
+      return state.concat({
+        id,
+        fetchingInstituteStatus: fetchingStatuses.FETCHING,
+      });
     }
     case GET_INSTITUTE_SUCCESS: {
-      const {institute} = action;
-      return state.map(lis =>
-        lis.id === institute.id
+      const {institute}: {institute: listingType} = action;
+      return state.map<ItemType>((ins: ItemType) =>
+        ins.id === institute.id
           ? {
               ...institute,
               fetchingInstituteStatus: fetchingStatuses.SUCCESS,
             }
-          : lis,
+          : ins,
       );
     }
     case GET_INSTITUTE_ERROR: {
-      const {id} = action;
-      return state.map(lis =>
-        lis.id === id
+      const {id}: {id: string} = action;
+      return state.map<ItemType>((ins: ItemType) =>
+        ins.id === id
           ? {
-              ...lis,
+              ...ins,
               fetchingInstituteStatus: fetchingStatuses.ERROR,
             }
-          : lis,
+          : ins,
       );
     }
     default:
@@ -46,4 +63,4 @@ const ListingDetailReducer = (state = initialState, action) => {
   }
 };
 
-export default ListingDetailReducer;
+export default InstitutionReducer;

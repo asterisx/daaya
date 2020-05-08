@@ -1,3 +1,5 @@
+// @flow
+
 import {
   ADD_LISTING,
   ADD_LISTING_SUCCESS,
@@ -8,57 +10,94 @@ import {
   addListingStatuses,
   fetchingStatuses,
 } from '../../actions';
+import type {inCompleteListing, listingType} from '../../../common/types';
+import type {
+  addListingErrorType,
+  addListingSuccessType,
+  listingsErrorType,
+  listingsReceivedType,
+} from '../../actions';
 
-const initialState = {
-  /*
-    [
-      searchTerm: '',
-      listings: [],
-      listingsStatus: FETCHING, FETCHED, ERROR
-    ],
-  */
-  searchResults: [],
-  newListings: [],
-  newListingIndex: 0,
+type searchResultType = {
+  searchTerm: string,
+  listings?: Array<listingType>,
+  prev?: string,
+  next?: string,
+  fetchingListingsStatus:
+    | fetchingStatuses.FETCHING
+    | fetchingStatuses.ERROR
+    | fetchingStatuses.SUCCESS,
 };
 
-const ListingsReducer = (state = initialState, action) => {
+type newListingType = {
+  index: number,
+  listing: listingType,
+  addListingStatus:
+    | addListingStatuses.ADDING
+    | addListingStatuses.SUCCESS
+    | addListingStatuses.ERROR,
+  error?: string,
+};
+
+type State = {
+  searchResults: Array<searchResultType>,
+  newListings: Array<newListingType>,
+  newListingCounter: number,
+};
+
+const initialState: State = {
+  searchResults: [],
+  newListings: [],
+  newListingCounter: 0,
+};
+
+const ListingsReducer = (
+  state: State = initialState,
+  action:
+    | addListingSuccessType
+    | addListingErrorType
+    | listingsReceivedType
+    | listingsErrorType,
+): State => {
   switch (action.type) {
     case ADD_LISTING: {
-      const {listing} = state;
+      const {listing, index}: {listing: listingType, index: number} = action;
       return {
         ...state,
         newListings: state.newListings.concat({
+          index,
           listing,
           addListingStatus: addListingStatuses.ADDING,
           error: undefined,
         }),
-        newListingIndex: state.newListingIndex + 1,
+        newListingCounter: state.newListingCounter + 1,
       };
     }
     case ADD_LISTING_SUCCESS: {
-      const {listing} = state;
+      const {listing}: {listing: listingType} = action;
       return {
         ...state,
-        newListings: state.newListings.map(l =>
-          l.index === listing.index
-            ? {
-                ...l,
-                addListingStatus: addListingStatuses.SUCCESS,
-                error: undefined,
-              }
-            : l,
+        newListings: state.newListings.map<newListingType>(
+          (l: newListingType) =>
+            l.index === listing.index
+              ? {
+                  ...l,
+                  addListingStatus: addListingStatuses.SUCCESS,
+                  error: undefined,
+                }
+              : l,
         ),
       };
     }
     case ADD_LISTING_ERROR:
-      const {listing, error} = state;
+      const {listing, error} = action;
       return {
         ...state,
-        newListings: state.newListings.map(l =>
-          l.index === listing.index
-            ? {...l, addListingStatus: addListingStatuses.ERROR, error}
-            : l,
+        newListings: state.newListings.map<newListingType>(
+          (l: newListingType) =>
+            l.index === listing.index
+              ? {...l, addListingStatus: addListingStatuses.ERROR, error}
+              : l,
         ),
       };
     case GET_LISTINGS: {
@@ -69,7 +108,7 @@ const ListingsReducer = (state = initialState, action) => {
       return {
         ...state,
         searchResults: searchTermInStore
-          ? state.searchResults.map(al =>
+          ? state.searchResults.map<searchResultType>((al: searchResultType) =>
               al.searchTerm === searchTerm
                 ? {
                     ...al,
@@ -79,7 +118,7 @@ const ListingsReducer = (state = initialState, action) => {
             )
           : state.searchResults.concat({
               searchTerm,
-              listingsStatus: GET_LISTINGS,
+              fetchingListingsStatus: GET_LISTINGS,
             }),
       };
     }
@@ -87,16 +126,17 @@ const ListingsReducer = (state = initialState, action) => {
       const {listings, prev, next, searchTerm} = action;
       return {
         ...state,
-        searchResults: state.searchResults.map(al =>
-          al.searchTerm === searchTerm
-            ? {
-                ...al,
-                listings: listings.concat(al.listings),
-                prev,
-                next,
-                fetchingListingsStatus: fetchingStatuses.SUCCESS,
-              }
-            : al,
+        searchResults: state.searchResults.map<searchResultType>(
+          (al: searchResultType) =>
+            al.searchTerm === searchTerm
+              ? {
+                  ...al,
+                  listings: listings.concat(al.listings),
+                  prev,
+                  next,
+                  fetchingListingsStatus: fetchingStatuses.SUCCESS,
+                }
+              : al,
         ),
       };
     }
@@ -104,13 +144,14 @@ const ListingsReducer = (state = initialState, action) => {
       const {searchTerm} = action;
       return {
         ...state,
-        searchResults: state.searchResults.map(al =>
-          al.searchTerm === searchTerm
-            ? {
-                ...al,
-                fetchingListingsStatus: fetchingStatuses.ERROR,
-              }
-            : al,
+        searchResults: state.searchResults.map<searchResultType>(
+          (al: searchResultType) =>
+            al.searchTerm === searchTerm
+              ? {
+                  ...al,
+                  fetchingListingsStatus: fetchingStatuses.ERROR,
+                }
+              : al,
         ),
       };
     }

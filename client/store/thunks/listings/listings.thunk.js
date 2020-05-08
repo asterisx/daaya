@@ -8,9 +8,15 @@ import {
   listingsReceived,
   ADD_LISTING,
 } from '../../actions';
-import type {listingType} from "../../../common/types";
+import type {listingType} from '../../../common/types';
 
-export const addListing = (listing: listingType) => async dispatch => {
+export const addListing = (listing: listingType) => async (
+  dispatch,
+  getState,
+) => {
+  const {
+    Listings: {newListingCounter},
+  } = getState();
   dispatch({
     type: ADD_LISTING,
     payload: {
@@ -24,14 +30,26 @@ export const addListing = (listing: listingType) => async dispatch => {
       const {
         data: {listing},
       } = response.payload;
-      dispatch(addListingSuccess({listing}));
+      dispatch(addListingSuccess({index: newListingCounter, listing}));
     } else if (response.type.endsWith('_FAIL')) {
-      dispatch(addListingError({listing, error: response.error}));
+      dispatch(
+        addListingError({
+          index: newListingCounter,
+          listing,
+          error: response.error,
+        }),
+      );
     }
   });
 };
 
-export const getListings = ({searchTerm, link}: {searchTerm: string, link: string}) => async dispatch => {
+export const getListings = ({
+  searchTerm,
+  link,
+}: {
+  searchTerm: string,
+  link: string,
+}) => async dispatch => {
   dispatch({
     type: GET_LISTINGS,
     payload: {

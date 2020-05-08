@@ -37,10 +37,11 @@ export type email = {
 }
 
 export type institutionInfo = {
-  addresses: Array<address>,
-  telephones: Array<telephone>,
-  emails: Array<email>,
-  workingTimes: Array<string>,
+  +id: string,
+  +addresses: Array<address>,
+  +telephones: Array<telephone>,
+  +emails: Array<email>,
+  +workingTimes: Array<string>,
 }
 
 export type bio = {
@@ -49,16 +50,17 @@ export type bio = {
 };
 
 export type listingType = {
-  id: string,
-  images: Array<string>,
-  title: string,
-  category: category,
-  address?: address,
-  telephone?: telephone,
+  +id: string,
+  +images: Array<string>,
+  +title: string,
+  +category: category,
+  +address?: address,
+  +telephone?: telephone,
 };
 
 export type institutionType = {
-  bio: bio,
-  info: institutionInfo,
-  posts: Array<post>
+  +bio: bio,
+  +info: institutionInfo,
+  +posts: Array<post>
 };
+
