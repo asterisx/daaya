@@ -1,49 +1,59 @@
+// @flow
+
 import {
-  fetchingListingStatuses,
   GET_LISTING,
   GET_LISTING_ERROR,
   GET_LISTING_SUCCESS,
-} from '../../actions/listing';
-import {
-  fetchingListingsStatuses,
-  GET_LISTINGS,
-  GET_LISTINGS_ERROR,
-  GET_LISTINGS_SUCCESS,
-} from '../../actions/listings';
-import ListingsReducer from "../listings/listings.reducer";
+  fetchingStatuses,
+} from '../../actions';
+import type {listingType} from '../../../common/types';
+import type {listingErrorType, listingReceivedType} from '../../actions';
 
-const initialState = [];
+type listing = listingType & {
+  +fetchingListingStatus: fetchingStatuses.FETCHING | fetchingStatuses.ERROR | fetchingStatuses.SUCCESS,
+};
 
-const ListingReducer = (state = initialState, action) => {
+type inCompleteListing = {
+  +id: string,
+  +fetchingListingStatus: fetchingStatuses.FETCHING | fetchingStatuses.ERROR | fetchingStatuses.SUCCESS,
+};
+
+type ItemType = listing | inCompleteListing;
+
+type State = Array<ItemType>;
+
+const initialState: State = [];
+
+const ListingReducer = (
+  state: State = initialState,
+  action: listingReceivedType | listingErrorType,
+): State => {
   switch (action.type) {
     case GET_LISTING: {
-      const {id} = action;
-      return [
-        ...state,
-        {
-          id,
-          fetchingListingStatus: fetchingListingStatuses.FETCHING,
-        },
-      ];
+      const {id}: {id: string} = action;
+      return state.concat({
+        id,
+        fetchingListingStatus: fetchingStatuses.FETCHING,
+      });
     }
     case GET_LISTING_SUCCESS: {
-      const {listing} = action;
-      return state.map(lis =>
+      const {listing}: {listing: listingType} = action;
+      return state.map<ItemType>((lis: ItemType) =>
         lis.id === listing.id
           ? {
               ...listing,
-              fetchingListingStatus: fetchingListingStatuses.SUCCESS,
+              fetchingListingStatus: fetchingStatuses.SUCCESS,
             }
           : lis,
       );
     }
     case GET_LISTING_ERROR: {
-      const {id} = action;
-      return state.map(lis =>
+      const {id}: {id: string} = action;
+      return state.map<ItemType>((lis: ItemType) =>
         lis.id === id
           ? {
               ...lis,
-              fetchingListingStatus: fetchingListingStatuses.ERROR,
+              fetchingListingStatus: fetchingStatuses.ERROR,
             }
           : lis,
       );

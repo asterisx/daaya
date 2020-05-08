@@ -1,22 +1,13 @@
-import {GET_LISTING, listingError, listingReceived} from '../../actions';
+// @flow
 
-export const getListing = ({id}) => async dispatch => {
-  dispatch({
-    type: GET_LISTING,
-    payload: {
-      url: 'listing',
-      data: {id},
-    },
-  }).then(response => {
-    if (response.type.endsWith('_SUCCESS')) {
-      const {
-        data: {
-          listing
-        },
-      } = response.payload;
-      dispatch(listingReceived({listing}));
-    } else if (response.type.endsWith('_FAIL')) {
-      dispatch(listingError({id, error: response.error}));
-    }
-  });
+import {getListing, listingError, listingReceived} from '../../actions';
+import {API} from "../../../common/api/api";
+
+export const getListingThunk = ({id}: {id: string}) => async dispatch => {
+
+  dispatch(getListing({id}))
+
+  API.getListing({id})
+    .then(listing => dispatch(listingReceived({listing})))
+    .catch(() => dispatch(listingError({id, error})));
 };

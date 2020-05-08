@@ -5,26 +5,21 @@
  * @format
  * @flow
  */
-
+import 'react-native-gesture-handler';
 import React from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
-import {Home} from './screens';
+import {NavigationContainer} from '@react-navigation/native';
 import {Provider} from 'react-redux';
 import store from './store';
+import Navigator from './routes/home.route';
 
 const App: () => React$Node = () => {
   return (
     <Provider store={store}>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <Home />
-      </SafeAreaView>
+      <NavigationContainer>
+        <Navigator />
+      </NavigationContainer>
     </Provider>
   );
 };
-
 
 export default App;

@@ -1,55 +1,58 @@
+// @flow
+
 import {
   GET_LISTINGS,
   addListingSuccess,
   addListingError,
   listingsError,
   listingsReceived,
-  ADD_LISTING,
+  ADD_LISTING, addListing,
 } from '../../actions';
+import type {listingType} from '../../../common/types';
+import {API} from '../../../common/api/api';
 
-export const addListing = listing => async dispatch => {
-  dispatch({
-    type: ADD_LISTING,
-    payload: {
-      request: {
-        method: 'put',
-        url: 'listing',
-      },
-    },
-  }).then(response => {
-    if (response.type.endsWith('_SUCCESS')) {
-      const {
-        data: {listing},
-      } = response.payload;
-      dispatch(addListingSuccess({listing}));
-    } else if (response.type.endsWith('_FAIL')) {
-      dispatch(addListingError({listing, error: response.error}));
-    }
-  });
+export const addListingThunk = (listing: listingType) => async (
+  dispatch,
+  getState,
+) => {
+  const {
+    Listings: {newListingCounter},
+  } = getState();
+
+  dispatch(addListing({listing, index: newListingCounter}));
+
+  API.addListing({listing})
+    .then(newListing =>
+      dispatch(
+        addListingSuccess({index: newListingCounter, listing: newListing}),
+      ),
+    )
+    .catch(error =>
+      dispatch(
+        addListingError({
+          index: newListingCounter,
+          listing,
+          error,
+        }),
+      ),
+    );
 };
 
-export const getListings = ({searchTerm, link}) => async dispatch => {
-  dispatch({
-    type: GET_LISTINGS,
-    payload: {
-      request: link
-        ? link
-        : {
-            url: 'listings',
-            data: {searchTerm},
-          },
-    },
-  }).then(response => {
-    if (response.type.endsWith('_SUCCESS')) {
-      const {
-        data: {
-          listings,
-          links: {next, prev},
-        },
-      } = response.payload;
-      dispatch(listingsReceived({listings: listings, next, prev, searchTerm}));
-    } else if (response.type.endsWith('_FAIL')) {
-      dispatch(listingsError({searchTerm, error: response.error}));
-    }
-  });
+export const getListingsThunk = ({
+  searchTerm,
+  link,
+}: {
+  searchTerm: string,
+  link: string,
+}) => async dispatch => {
+  dispatch(getListings({searchTerm}));
+
+  API.getListings({
+    searchTerm,
+    link,
+  })
+    .then(listings =>
+      dispatch(listingsReceived({listings: listings, searchTerm})),
+    )
+    .catch(error => dispatch(listingsError({searchTerm, error})));
 };

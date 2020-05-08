@@ -13,7 +13,7 @@ import {
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import ImagePicker from 'react-native-image-picker';
 import {connect} from 'react-redux';
-import {addListing} from '../../../store/thunks';
+import {addListingThunk} from '../../../store/thunks';
 import {styles} from './styles';
 import type {category} from '../../types';
 
@@ -154,4 +154,9 @@ function UploadForm({uploadStatus, addListing, categories}: props) {
 
 const mapStateToProps = ({uploadStatus}) => ({uploadStatus});
 
-export default connect(mapStateToProps, {addListing})(UploadForm);
+const mapDispatchToProps = {addListing: addListingThunk};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(UploadForm);

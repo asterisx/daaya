@@ -1,9 +1,21 @@
-import Address from "./address";
-import Bio from "./bio";
-import Email from "./email";
-import Info from "./info";
+import Address from './address';
+import Bio from './bio';
+import Email from './email';
+import Info from './info';
 import Listings from './listings';
-import Posts from "./posts";
-import Tel from "./tel";
+import Posts from './posts';
+import Tel from './tel';
+import {HomeHeader, SimpleHeader, SearchHeader} from './header';
 
-export {Address, Bio, Email, Info, Listings, Posts, Tel};
+export {
+  Address,
+  Bio,
+  Email,
+  HomeHeader,
+  Info,
+  Listings,
+  Posts,
+  SimpleHeader,
+  SearchHeader,
+  Tel,
+};
