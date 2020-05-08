@@ -14,7 +14,7 @@ import {connect} from 'react-redux';
 import {Bio, Info, Posts} from '../../common/components';
 import type {institutionType} from '../../common/types';
 import {useDelayedLoader} from '../../common/hooks';
-import {getInstitute} from '../../store/thunks';
+import {getInstituteThunk} from '../../store/thunks';
 import {fetchingStatuses} from '../../store/actions';
 import {styles} from '../../common/styles';
 
@@ -120,7 +120,7 @@ const mapStateToProps = (
 };
 
 const mapDispatchToProps = {
-  getInstitute,
+  getInstitute: getInstituteThunk,
 };
 
 export default connect(

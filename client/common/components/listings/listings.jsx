@@ -6,7 +6,7 @@ import {Text, View, Image, ScrollView, TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-elements';
 import type {post} from '../../types';
 import {styles} from './styles';
-import {getListings} from '../../../store/thunks/listings';
+import {getListingsThunk} from '../../../store/thunks/listings';
 
 type Props = {
   listings: Array<post>,
@@ -52,7 +52,7 @@ const mapStateToProps = ({Listings}, {searchTerm: stInProps}) => {
 };
 
 const mapDispatchToProps = {
-  getListings,
+  getListings: getListingsThunk,
 };
 
 export default connect(

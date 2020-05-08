@@ -1,24 +1,11 @@
 // @flow
 
-import {GET_INSTITUTE, instituteError, instituteReceived} from '../../actions';
+import {getInstitute, instituteError, instituteReceived} from '../../actions';
+import API from '../../../common/api';
 
-export const getInstitute = ({id}: {id: string}) => async dispatch => {
-    dispatch({
-        type: GET_INSTITUTE,
-        payload: {
-            url: 'institute',
-            data: {id},
-        },
-    }).then(response => {
-        if (response.type.endsWith('_SUCCESS')) {
-            const {
-                data: {
-                    institute
-                },
-            } = response.payload;
-            dispatch(instituteReceived({institute}));
-        } else if (response.type.endsWith('_FAIL')) {
-            dispatch(instituteError({id, error: response.error}));
-        }
-    });
+export const getInstituteThunk = ({id}: {id: string}) => async dispatch => {
+  dispatch(getInstitute({id}));
+  API.getInstitute({id})
+    .then(institute => dispatch(instituteReceived({institute})))
+    .catch(error => dispatch(instituteError({id, error})));
 };

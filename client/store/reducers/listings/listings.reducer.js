@@ -89,7 +89,7 @@ const ListingsReducer = (
         ),
       };
     }
-    case ADD_LISTING_ERROR:
+    case ADD_LISTING_ERROR: {
       const {listing, error} = action;
       return {
         ...state,
@@ -100,6 +100,7 @@ const ListingsReducer = (
               : l,
         ),
       };
+    }
     case GET_LISTINGS: {
       const {searchTerm} = action;
       const searchTermInStore = state.searchResults.find(

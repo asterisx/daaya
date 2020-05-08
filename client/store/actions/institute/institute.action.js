@@ -6,6 +6,16 @@ export const GET_INSTITUTE = 'GET_INSTITUTE';
 export const GET_INSTITUTE_SUCCESS = 'GET_INSTITUTE_SUCCESS';
 export const GET_INSTITUTE_ERROR = 'GET_INSTITUTE_ERROR';
 
+export type getInstituteType = {
+  +type: string,
+  +id: string,
+};
+
+export const getInstitute = ({id}: {id: string}): getInstituteType => ({
+  type: GET_INSTITUTE,
+  id,
+});
+
 export type instituteReceivedType = {
   +type: string,
   +institute: institutionType,

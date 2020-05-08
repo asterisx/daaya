@@ -1,1 +1,1 @@
-export default from './listings.reducer';
+export {default} from './listings.reducer';

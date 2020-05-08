@@ -9,7 +9,7 @@ import {NavigationStackScreenProps} from 'react-navigation-stack';
 import {Address, Tel} from '../../common/components';
 import type {listingType} from '../../common/types';
 import {styles} from '../../common/styles';
-import {getListing} from '../../store/thunks/listing';
+import {getListingThunk} from '../../store/thunks/listing';
 import {fetchingStatuses} from '../../store/actions';
 import {useDelayedLoader} from '../../common/hooks';
 
@@ -99,7 +99,7 @@ const mapStateToProps = (
 };
 
 const mapDispatchToProps = {
-  getListing,
+  getListing: getListingThunk,
 };
 
 export default connect(

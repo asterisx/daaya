@@ -24,7 +24,7 @@ type State = Array<ItemType>;
 
 const initialState: State = [];
 
-const ListingDetailReducer = (
+const ListingReducer = (
   state: State = initialState,
   action: listingReceivedType | listingErrorType,
 ): State => {
@@ -63,4 +63,4 @@ const ListingDetailReducer = (
   }
 };
 
-export default ListingDetailReducer;
+export default ListingReducer;

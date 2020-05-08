@@ -1,1 +1,1 @@
-export default from './institution.reducer';
+export {default} from './institution.reducer';

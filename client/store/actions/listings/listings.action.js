@@ -15,6 +15,24 @@ export const addListingStatuses = {
   ERROR: 'ERROR',
 };
 
+export type addListingType = {
+  +type: string,
+  +index: number,
+  +listing: listingType,
+};
+
+export const addListing = ({
+  index,
+  listing,
+}: {
+  index: number,
+  listing: listingType,
+}): addListingType => ({
+  type: ADD_LISTING,
+  index,
+  listing,
+});
+
 export type addListingSuccessType = {
   +type: string,
   +index: number,
@@ -53,6 +71,20 @@ export const addListingError = ({
   index,
   listing,
   error,
+});
+
+export type getListingType = {
+  type: string,
+  searchTerm: string,
+};
+
+export const getListings = ({
+  searchTerm,
+}: {
+  searchTerm: string,
+}): getListingType => ({
+  type: GET_LISTINGS,
+  searchTerm,
 });
 
 export type listingsReceivedType = {
