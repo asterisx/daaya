@@ -11,7 +11,7 @@ export type listingGetType = {
     +id: string,
 };
 
-export const getListing = ({id}): listingGetType => ({
+export const getListing = ({id}: {id: string}): listingGetType => ({
     type: GET_LISTING,
     id
 })
