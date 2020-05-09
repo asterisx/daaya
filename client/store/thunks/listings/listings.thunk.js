@@ -1,12 +1,12 @@
 // @flow
 
 import {
-  GET_LISTINGS,
   addListingSuccess,
   addListingError,
   listingsError,
   listingsReceived,
-  ADD_LISTING, addListing,
+  addListing,
+  getListings,
 } from '../../actions';
 import type {listingType} from '../../../common/types';
 import {API} from '../../../common/api/api';
@@ -40,19 +40,27 @@ export const addListingThunk = (listing: listingType) => async (
 
 export const getListingsThunk = ({
   searchTerm,
-  link,
+  direction,
 }: {
   searchTerm: string,
-  link: string,
-}) => async dispatch => {
+  direction: string,
+}) => async (dispatch, getState) => {
   dispatch(getListings({searchTerm}));
+
+  const {
+    Listings: {searchResults},
+  } = getState();
 
   API.getListings({
     searchTerm,
-    link,
+    direction,
+    cursorId: searchResults.find(({searchTerm: st}) => st === searchTerm)
+      .cursorId,
   })
-    .then(listings =>
-      dispatch(listingsReceived({listings: listings, searchTerm})),
+    .then(({searchResults, cursorId}) =>
+      dispatch(
+        listingsReceived({listings: searchResults, searchTerm, cursorId}),
+      ),
     )
     .catch(error => dispatch(listingsError({searchTerm, error})));
 };

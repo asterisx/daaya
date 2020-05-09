@@ -21,8 +21,7 @@ import type {
 type searchResultType = {
   searchTerm: string,
   listings?: Array<listingType>,
-  prev?: string,
-  next?: string,
+  cursorId?: string,
   fetchingListingsStatus:
     | fetchingStatuses.FETCHING
     | fetchingStatuses.ERROR
@@ -124,7 +123,7 @@ const ListingsReducer = (
       };
     }
     case GET_LISTINGS_SUCCESS: {
-      const {listings, prev, next, searchTerm} = action;
+      const {listings, cursorId, searchTerm} = action;
       return {
         ...state,
         searchResults: state.searchResults.map<searchResultType>(
@@ -133,8 +132,7 @@ const ListingsReducer = (
               ? {
                   ...al,
                   listings: listings.concat(al.listings),
-                  prev,
-                  next,
+                  cursorId,
                   fetchingListingsStatus: fetchingStatuses.SUCCESS,
                 }
               : al,
