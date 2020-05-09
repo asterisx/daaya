@@ -34,6 +34,18 @@ while (listings.length < 200) {
   });
 }
 
+const getCursorId = ({results, direction}) => {
+  if (results.length) {
+    if (direction === 'next') {
+      return results[results.length - 1].id;
+    } else if (direction === 'prev') {
+      return results[0].id;
+    }
+  } else {
+    return undefined;
+  }
+};
+
 export default {
   getListings: ({searchTerm, cursorId, direction, count}) =>
     new Promise((resolve, reject) => {
@@ -42,22 +54,24 @@ export default {
       );
       let results = [];
       if (direction === 'next') {
-        const nextResults = cursorId ? allResults.filter(({id}) => id > cursorId): allResults;
-        results = nextResults.slice(0, count).reverse();
+        const nextResults = cursorId
+          ? allResults.filter(({id}) => id > cursorId)
+          : allResults;
+        results = nextResults.slice(0, count);
       } else {
-        const previousResults = cursorId ? allResults
-          .filter(({id}) => id < cursorId)
-          .reverse(): allResults.reverse();
-        results = previousResults.slice(0, count);
+        const previousResults = cursorId
+          ? allResults.filter(({id}) => id < cursorId)
+          : allResults;
+        results = previousResults
+          .reverse()
+          .slice(0, count)
+          .reverse();
       }
       setTimeout(
         () =>
           resolve({
             searchResults: results,
-            cursorId:
-              direction === 'next'
-                ? results[results.length - 1].id
-                : results[0].id,
+            cursorId: getCursorId({results, direction}),
           }),
         Math.random(1) * 1000,
       );
