@@ -2,7 +2,7 @@
 
 import {useState, useEffect, useRef} from 'react';
 
-export const useDelayedLoader = (showLoader: boolean) => {
+export const useDelayedLoader = (showLoader: boolean): boolean => {
   const [ShowLoader, SetShowLoader] = useState(false);
   const timeout = useRef();
 

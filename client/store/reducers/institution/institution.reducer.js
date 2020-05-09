@@ -31,10 +31,10 @@ const InstitutionReducer = (
   switch (action.type) {
     case GET_INSTITUTE: {
       const {id}: {id: string} = action;
-      return state.concat({
+      return [...state, {
         id,
         fetchingInstituteStatus: fetchingStatuses.FETCHING,
-      });
+      }];
     }
     case GET_INSTITUTE_SUCCESS: {
       const {institute}: {institute: listingType} = action;

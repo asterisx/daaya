@@ -31,10 +31,10 @@ const ListingReducer = (
   switch (action.type) {
     case GET_LISTING: {
       const {id}: {id: string} = action;
-      return state.concat({
+      return [...state, {
         id,
         fetchingListingStatus: fetchingStatuses.FETCHING,
-      });
+      }];
     }
     case GET_LISTING_SUCCESS: {
       const {listing}: {listing: listingType} = action;

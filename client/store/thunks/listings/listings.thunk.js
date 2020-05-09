@@ -9,9 +9,9 @@ import {
   getListings,
 } from '../../actions';
 import type {listingType} from '../../../common/types';
-import {API} from '../../../common/api/api';
+import API from '../../../common/api';
 
-export const addListingThunk = (listing: listingType) => async (
+export const addListingThunk = (listing: listingType) => (
   dispatch,
   getState,
 ) => {
@@ -40,17 +40,17 @@ export const addListingThunk = (listing: listingType) => async (
 
 export const getListingsThunk = ({
   searchTerm,
-  direction,
+  direction = 'next',
+  count = 10,
 }: {
   searchTerm: string,
   direction: string,
-}) => async (dispatch, getState) => {
+}) => (dispatch, getState) => {
   dispatch(getListings({searchTerm}));
 
   const {
     Listings: {searchResults},
   } = getState();
-
   API.getListings({
     searchTerm,
     direction,
@@ -59,7 +59,13 @@ export const getListingsThunk = ({
   })
     .then(({searchResults, cursorId}) =>
       dispatch(
-        listingsReceived({listings: searchResults, searchTerm, cursorId}),
+        listingsReceived({
+          listings: searchResults,
+          searchTerm,
+          cursorId,
+          direction,
+          count,
+        }),
       ),
     )
     .catch(error => dispatch(listingsError({searchTerm, error})));

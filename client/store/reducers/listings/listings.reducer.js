@@ -63,12 +63,15 @@ const ListingsReducer = (
       const {listing, index}: {listing: listingType, index: number} = action;
       return {
         ...state,
-        newListings: state.newListings.concat({
-          index,
-          listing,
-          addListingStatus: addListingStatuses.ADDING,
-          error: undefined,
-        }),
+        newListings: [
+          ...state.newListings,
+          {
+            index,
+            listing,
+            addListingStatus: addListingStatuses.ADDING,
+            error: undefined,
+          },
+        ],
         newListingCounter: state.newListingCounter + 1,
       };
     }
@@ -116,14 +119,17 @@ const ListingsReducer = (
                   }
                 : al,
             )
-          : state.searchResults.concat({
-              searchTerm,
-              fetchingListingsStatus: GET_LISTINGS,
-            }),
+          : [
+              ...state.searchResults,
+              {
+                searchTerm,
+                fetchingListingsStatus: GET_LISTINGS,
+              },
+            ],
       };
     }
     case GET_LISTINGS_SUCCESS: {
-      const {listings, cursorId, searchTerm} = action;
+      const {listings, cursorId, searchTerm, direction} = action;
       return {
         ...state,
         searchResults: state.searchResults.map<searchResultType>(
@@ -131,7 +137,10 @@ const ListingsReducer = (
             al.searchTerm === searchTerm
               ? {
                   ...al,
-                  listings: listings.concat(al.listings),
+                  listings:
+                    direction === 'next'
+                      ? [...(al.listings || []), ...listings]
+                      : [...listings, ...(al.listings || [])],
                   cursorId,
                   fetchingListingsStatus: fetchingStatuses.SUCCESS,
                 }

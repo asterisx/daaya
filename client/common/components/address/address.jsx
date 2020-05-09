@@ -12,8 +12,8 @@ const Address = ({address, location}: address) => (
         onPress={() =>
           Linking.openURL(
             `${Platform.OS === 'ios' ? 'maps:' : 'geo:'}${
-              address.location.lat
-            },${address.location.lng}`,
+              location.lat
+            },${location.lng}`,
           )
         }>
         <Text>Open Map</Text>

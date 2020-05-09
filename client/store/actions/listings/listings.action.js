@@ -91,22 +91,26 @@ export type listingsReceivedType = {
   +type: string,
   +listings: Array<listingType>,
   +searchTerm: string,
-  cursorId: string,
+  +cursorId: string,
+  +direction: string
 };
 
 export const listingsReceived = ({
   listings,
   searchTerm,
   cursorId,
+    direction
 }: {
   +listings: Array<listingType>,
   +searchTerm: string,
-  +cursorId: string
+  +cursorId: string,
+  +direction: string
 }): listingsReceivedType => ({
   type: GET_LISTINGS_SUCCESS,
   listings,
   searchTerm,
   cursorId,
+  direction
 });
 
 export type listingsErrorType = {
@@ -116,9 +120,11 @@ export type listingsErrorType = {
 
 export const listingsError = ({
   searchTerm,
+  error,
 }: {
   searchTerm: string,
 }): listingsErrorType => ({
   type: GET_LISTINGS_ERROR,
   searchTerm,
+  error,
 });

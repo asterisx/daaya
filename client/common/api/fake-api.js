@@ -12,8 +12,9 @@ while (listings.length < 200) {
   const index = getRandomInt(3);
   listings.push({
     id: faker.random.uuid(),
-    images: Array.from({length: getRandomInt(11)}, () =>
-      faker.image.imageUrl(),
+    images: Array.from(
+      {length: getRandomInt(11)},
+      () => 'https://picsum.photos/600/480',
     ),
     title: faker.lorem.sentence(),
     category: {

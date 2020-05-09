@@ -8,26 +8,26 @@ import {NavigationStackScreenProps} from 'react-navigation-stack';
 
 import {Address, Tel} from '../../common/components';
 import type {listingType} from '../../common/types';
-import {styles} from '../../common/styles';
+import {styles} from './styles';
 import {getListingThunk} from '../../store/thunks/listing';
 import {fetchingStatuses} from '../../store/actions';
 import {useDelayedLoader} from '../../common/hooks';
 
 const Listing = ({
-  images,
+  images = [],
   title,
   category,
   address,
   telephone,
 }: listingType) => (
   <View>
-    <Swiper style={styles.wrapper} height={240}>
-      {images.map(image => (
-        <Image resizeMode="stretch" style={styles.image} source={image} />
+    <Swiper height={480}>
+      {images.map((image, index) => (
+        <Image key={`${image}-${index}`} resizeMode="center" style={styles.image} source={{uri: image}} />
       ))}
     </Swiper>
     <Text>{title}</Text>
-    <Text>{category}</Text>
+    <Text>{category.value}</Text>
     {address && <Address {...address} />}
     {telephone && <Tel {...telephone} />}
   </View>
@@ -47,9 +47,9 @@ const ListingDetail = ({navigation, getListing, listing}: Props) => {
   const showLoader = useDelayedLoader(
     listing.fetchingListingStatus === fetchingStatuses.FETCHING,
   );
-  useEffect(async () => {
+  useEffect( () => {
     if (listing.fetchingListingStatus === fetchingStatuses.NONE) {
-      await getListing({id: navigation.getParam('id')});
+      getListing({id: navigation.getParam('id')});
     }
   }, [listing.fetchingListingStatus]);
 
@@ -60,10 +60,13 @@ const ListingDetail = ({navigation, getListing, listing}: Props) => {
         images={listing.images}
         title={listing.title}
         category={listing.category}
+        address={listing.address}
+        telephone={listing.telephone}
       />
     );
   } else if (
-    listing.fetchingListingStatus === fetchingStatuses.FETCHING
+    listing.fetchingListingStatus === fetchingStatuses.FETCHING ||
+    listing.fetchingListingStatus === fetchingStatuses.NONE
   ) {
     return showLoader ? (
       <View style={styles.fullScreenContainer}>
