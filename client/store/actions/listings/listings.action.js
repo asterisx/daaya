@@ -91,26 +91,22 @@ export type listingsReceivedType = {
   +type: string,
   +listings: Array<listingType>,
   +searchTerm: string,
-  +prev: string,
-  +next: string,
+  cursorId: string,
 };
 
 export const listingsReceived = ({
   listings,
   searchTerm,
-  prev,
-  next,
+  cursorId,
 }: {
   +listings: Array<listingType>,
   +searchTerm: string,
-  +prev: string,
-  +next: string,
+  +cursorId: string
 }): listingsReceivedType => ({
   type: GET_LISTINGS_SUCCESS,
   listings,
   searchTerm,
-  prev,
-  next,
+  cursorId,
 });
 
 export type listingsErrorType = {
