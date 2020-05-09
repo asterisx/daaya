@@ -1,9 +1,9 @@
 // @flow
 
 import {getListing, listingError, listingReceived} from '../../actions';
-import {API} from "../../../common/api/api";
+import API from "../../../common/api";
 
-export const getListingThunk = ({id}: {id: string}) => async dispatch => {
+export const getListingThunk = ({id}: {id: string}) => dispatch => {
 
   dispatch(getListing({id}))
 

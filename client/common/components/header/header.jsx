@@ -13,7 +13,7 @@ type Props = {
   searchOpen: boolean,
 };
 
-const Logo = () => <Image source={require('')} style={styles.headerLogo} />;
+const Logo = () => null;
 
 const Header = ({children, onGoBack}: {children: *, onGoBack: () => {}}) => (
   <View style={styles.headerContainer}>

@@ -28,7 +28,7 @@ export type address = {
 
 export type telephone = {
   name: string,
-  number: number,
+  telephone: string,
 }
 
 export type email = {
