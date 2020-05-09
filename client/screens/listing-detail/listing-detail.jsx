@@ -20,16 +20,18 @@ const Listing = ({
   address,
   telephone,
 }: listingType) => (
-  <View>
-    <Swiper height={480}>
+  <View style={styles.wrapper}>
+    <Swiper containerStyle={styles.slideshow} height={240}>
       {images.map((image, index) => (
-        <Image key={`${image}-${index}`} resizeMode="center" style={styles.image} source={{uri: image}} />
+          <Image key={`${image}-${index}`} resizeMode="stretch" style={styles.image} source={{uri: image}} />
       ))}
     </Swiper>
-    <Text>{title}</Text>
-    <Text>{category.value}</Text>
-    {address && <Address {...address} />}
-    {telephone && <Tel {...telephone} />}
+    <View style={styles.infoSection}>
+      <Text>{title}</Text>
+      <Text>{category.value}</Text>
+      {address && <Address {...address} />}
+      {telephone && <Tel {...telephone} />}
+    </View>
   </View>
 );
 

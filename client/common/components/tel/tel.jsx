@@ -6,6 +6,7 @@ import type {telephone} from '../../types';
 
 const Tel = ({name, telephone}: telephone) => (
   <TouchableOpacity onPress={() => Linking.openURL(`tel:${telephone}`)}>
+    <Text>{name}</Text>
     <Text>{telephone}</Text>
   </TouchableOpacity>
 );
