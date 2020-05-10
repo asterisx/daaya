@@ -36,6 +36,10 @@ const HomeHeader = ({onSearchClick}: {onSearchClick: () => {}}) => (
   </SafeAreaView>
 );
 
+const HeaderWrapper = ({children, onGoBack}) => (
+  <Header onGoBack={onGoBack}>{children}</Header>
+);
+
 const SimpleHeader = ({title, onGoBack}: {title: string}) => (
   <Header onGoBack={onGoBack}>
     <Text style={styles.headerTitle}>{title}</Text>
@@ -79,4 +83,4 @@ const SearchHeader = ({
   );
 };
 
-export {HomeHeader, SimpleHeader, SearchHeader};
+export {HomeHeader, SimpleHeader, SearchHeader, HeaderWrapper};

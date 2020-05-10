@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {Image, Text, View, ActivityIndicator, Button} from 'react-native';
 import Swiper from 'react-native-swiper';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
+import {useSafeArea} from 'react-native-safe-area-context';
 
 import {Address, Tel} from '../../common/components';
 import type {listingType} from '../../common/types';
@@ -19,21 +20,35 @@ const Listing = ({
   category,
   address,
   telephone,
-}: listingType) => (
-  <View style={styles.wrapper}>
-    <Swiper containerStyle={styles.slideshow} height={240}>
-      {images.map((image, index) => (
-          <Image key={`${image}-${index}`} resizeMode="stretch" style={styles.image} source={{uri: image}} />
-      ))}
-    </Swiper>
-    <View style={styles.infoSection}>
-      <Text>{title}</Text>
-      <Text>{category.value}</Text>
-      {address && <Address {...address} />}
-      {telephone && <Tel {...telephone} />}
+}: listingType) => {
+  const insets = useSafeArea();
+  return (
+    <View style={{...styles.wrapper, paddingBottom: insets.bottom}}>
+      <Swiper containerStyle={styles.slideshow} height={240}>
+        {images.map((image, index) => (
+          <Image
+            key={`${image}-${index}`}
+            resizeMode="stretch"
+            style={styles.image}
+            source={{uri: image}}
+          />
+        ))}
+      </Swiper>
+      <View style={styles.infoSection}>
+        <Text style={styles.title}>{title}</Text>
+        <View style={styles.category}>
+          <Text style={styles.categoryText}>{category.value}</Text>
+        </View>
+        {address && <Address {...address} />}
+      </View>
+      {telephone && (
+        <View style={styles.options}>
+          <Tel {...telephone} />
+        </View>
+      )}
     </View>
-  </View>
-);
+  );
+};
 
 type ListingProp = listingType & {
   fetchingListingStatus: string,
@@ -49,9 +64,13 @@ const ListingDetail = ({navigation, getListing, listing}: Props) => {
   const showLoader = useDelayedLoader(
     listing.fetchingListingStatus === fetchingStatuses.FETCHING,
   );
-  useEffect( () => {
+  useEffect(() => {
     if (listing.fetchingListingStatus === fetchingStatuses.NONE) {
       getListing({id: navigation.getParam('id')});
+    } else if (listing.fetchingListingStatus === fetchingStatuses.SUCCESS) {
+      navigation.setParams({
+        title: <Text numberOfLines={1}>{listing.title}</Text>,
+      });
     }
   }, [listing.fetchingListingStatus]);
 

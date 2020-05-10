@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 import {Home, Search, Institution, ListingDetail} from '../screens';
 import {
+  HeaderWrapper,
   HomeHeader,
   SearchHeader,
   SimpleHeader,
@@ -47,10 +48,9 @@ const screens = {
     screen: ListingDetail,
     navigationOptions: ({navigation}) => ({
       header: () => (
-        <SimpleHeader
-          title={navigation.state.params.title}
-          onGoBack={() => navigation.goBack()}
-        />
+        <HeaderWrapper onGoBack={() => navigation.goBack()}>
+          {navigation.state.params.title ? React.cloneElement(navigation.state.params.title): null}
+        </HeaderWrapper>
       ),
     }),
   },
@@ -58,7 +58,7 @@ const screens = {
 
 const HomeStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
-    headerShown: false,
+    headerShown: true,
   },
 });
 

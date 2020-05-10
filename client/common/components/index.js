@@ -5,7 +5,7 @@ import Info from './info';
 import Listings from './listings';
 import Posts from './posts';
 import Tel from './tel';
-import {HomeHeader, SimpleHeader, SearchHeader} from './header';
+import {HomeHeader, SimpleHeader, SearchHeader, HeaderWrapper} from './header';
 
 export {
   Address,
@@ -17,5 +17,6 @@ export {
   Posts,
   SimpleHeader,
   SearchHeader,
+  HeaderWrapper,
   Tel,
 };
