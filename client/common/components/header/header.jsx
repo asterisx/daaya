@@ -2,6 +2,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TextInput} from 'react-native';
+import {SafeAreaView} from 'react-navigation';
 import {Icon} from 'react-native-elements';
 import {styles} from './styles';
 
@@ -16,19 +17,23 @@ type Props = {
 const Logo = () => null;
 
 const Header = ({children, onGoBack}: {children: *, onGoBack: () => {}}) => (
-  <View style={styles.headerContainer}>
-    <Icon name="arrow-back" onPress={onGoBack} />
-    <Logo />
-    {children}
-  </View>
+  <SafeAreaView>
+    <View style={styles.headerContainer}>
+      <Icon name="arrow-back" onPress={onGoBack} />
+      <Logo />
+      {children}
+    </View>
+  </SafeAreaView>
 );
 
 const HomeHeader = ({onSearchClick}: {onSearchClick: () => {}}) => (
-  <View style={styles.homeHeaderContainer}>
-    <Logo />
-    <Text>Daaya</Text>
-    <Icon name="arrow-back" onPress={onSearchClick} />
-  </View>
+  <SafeAreaView>
+    <View style={styles.homeHeaderContainer}>
+      <Logo />
+      <Text>Daaya</Text>
+      <Icon name="search" onPress={onSearchClick} />
+    </View>
+  </SafeAreaView>
 );
 
 const SimpleHeader = ({title, onGoBack}: {title: string}) => (
