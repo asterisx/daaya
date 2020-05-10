@@ -56,6 +56,7 @@ export const getListingsThunk = ({
     direction,
     cursorId: searchResults.find(({searchTerm: st}) => st === searchTerm)
       .cursorId,
+      count
   })
     .then(({searchResults, cursorId}) =>
       dispatch(
@@ -63,8 +64,7 @@ export const getListingsThunk = ({
           listings: searchResults,
           searchTerm,
           cursorId,
-          direction,
-          count,
+          direction
         }),
       ),
     )
