@@ -7,12 +7,14 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: 'white',
   },
   headerContainer: {
     width: '100%',
     height: '100%',
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   headerTitle: {},
   headerLogo: {
