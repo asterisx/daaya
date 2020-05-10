@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   wrapper: {
     width: '100%',
     height: '100%',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   slideshow: {
     width,
@@ -26,4 +26,26 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  options: {
+    width: '100%',
+    flexDirection: 'row',
+    height: 50
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  category: {
+    alignSelf: 'flex-start',
+    marginTop: 5,
+    marginBottom: 15,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 10,
+    backgroundColor: '#F2784B'
+  },
+  categoryText: {
+    fontSize: 12,
+    color: 'white'
+  }
 });
