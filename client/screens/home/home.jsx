@@ -2,15 +2,19 @@
 
 import React from 'react';
 import {Listings} from '../../common/components';
-import type {post} from '../../common/types';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
 
 type Props = {
-  listings: Array<post>,
-  onListingClick: ({id: number}) => void,
+  navigation: NavigationStackScreenProps,
 };
 
-const Home = ({listings, onListingClick}: Props) => (
-  <Listings listings={listings} onListingClick={onListingClick} />
-);
+const Home = ({navigation}: Props) => {
+  return (
+    <Listings
+      searchTerm=""
+      onListingClick={({id}) => navigation.navigate('ListingDetail', {id})}
+    />
+  );
+};
 
 export default Home;

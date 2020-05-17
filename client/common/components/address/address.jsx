@@ -1,25 +1,29 @@
 // @flow
 
 import React from 'react';
-import {Platform, Linking, Text, TouchableOpacity, View} from 'react-native';
-import type {address} from '../../../../../../types';
+import {Platform, Linking, Text, TouchableOpacity} from 'react-native';
+import {Icon} from 'react-native-elements';
+import {styles} from './styles';
+import type {address} from '../../types';
 
-const Address = ({address, location}: address) => (
-  <View>
-    <Text>{address}</Text>
-    {location && (
-      <TouchableOpacity
-        onPress={() =>
-          Linking.openURL(
-            `${Platform.OS === 'ios' ? 'maps:' : 'geo:'}${
-              address.location.lat
-            },${address.location.lng}`,
-          )
-        }>
-        <Text>Open Map</Text>
-      </TouchableOpacity>
-    )}
-  </View>
+type Props = address & {
+  textStyle?: *,
+};
+
+const Address = ({address, location, textStyle}: Props) => (
+  <TouchableOpacity
+    style={styles.container}
+    onPress={() =>
+      location &&
+      Linking.openURL(
+        `${Platform.OS === 'ios' ? 'maps:' : 'geo:'}${location.lat},${
+          location.lng
+        }`,
+      )
+    }>
+    <Icon name="room" />
+    <Text style={textStyle}>{address}</Text>
+  </TouchableOpacity>
 );
 
 export default Address;

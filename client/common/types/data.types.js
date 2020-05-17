@@ -28,7 +28,7 @@ export type address = {
 
 export type telephone = {
   name: string,
-  number: number,
+  telephone: string,
 }
 
 export type email = {
@@ -37,13 +37,38 @@ export type email = {
 }
 
 export type institutionInfo = {
-  addresses: Array<address>,
-  telephones: Array<telephone>,
-  emails: Array<email>,
-  workingTimes: Array<string>,
+  +id: string,
+  +addresses: Array<address>,
+  +telephones: Array<telephone>,
+  +emails: Array<email>,
+  +workingTimes: Array<string>,
 }
 
 export type bio = {
   institutionName: string,
   bannerSrc: string,
 };
+
+export type listingType = {
+  +id: string,
+  +images: Array<string>,
+  +title: string,
+  +description? :string,
+  +category: category,
+  +address?: address,
+  +telephone?: telephone,
+};
+
+export type institutionType = {
+  +bio: bio,
+  +info: institutionInfo,
+  +posts: Array<post>
+};
+
+export type metaType = {
+  +categories: Array<category>,
+}
+
+export type emptyActionType = {
+  type: string,
+}
