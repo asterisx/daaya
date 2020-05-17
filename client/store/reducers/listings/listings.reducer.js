@@ -21,7 +21,8 @@ import type {
 type searchResultType = {
   searchTerm: string,
   listings?: Array<listingType>,
-  cursorId?: string,
+  cursorIdPrevious?: string,
+  cursorIdNext?: string,
   fetchingListingsStatus:
     | fetchingStatuses.FETCHING
     | fetchingStatuses.ERROR
@@ -36,6 +37,7 @@ type newListingType = {
     | addListingStatuses.SUCCESS
     | addListingStatuses.ERROR,
   error?: string,
+  isDraft: boolean,
 };
 
 type State = {
@@ -60,7 +62,11 @@ const ListingsReducer = (
 ): State => {
   switch (action.type) {
     case ADD_LISTING: {
-      const {listing, index}: {listing: listingType, index: number} = action;
+      const {
+        listing,
+        index,
+        isDraft,
+      }: {listing: listingType, index: number, isDraft: boolean} = action;
       return {
         ...state,
         newListings: [
@@ -70,13 +76,14 @@ const ListingsReducer = (
             listing,
             addListingStatus: addListingStatuses.ADDING,
             error: undefined,
+            isDraft,
           },
         ],
         newListingCounter: state.newListingCounter + 1,
       };
     }
     case ADD_LISTING_SUCCESS: {
-      const {listing}: {listing: listingType} = action;
+      const {listing}: {listing: listingType, isDraft: boolean} = action;
       return {
         ...state,
         newListings: state.newListings.map<newListingType>(
@@ -123,7 +130,7 @@ const ListingsReducer = (
               ...state.searchResults,
               {
                 searchTerm,
-                fetchingListingsStatus: GET_LISTINGS,
+                fetchingListingsStatus: fetchingStatuses.FETCHING,
               },
             ],
       };
@@ -139,9 +146,30 @@ const ListingsReducer = (
                   ...al,
                   listings:
                     direction === 'next'
-                      ? [...(al.listings || []), ...listings]
-                      : [...listings, ...(al.listings || [])],
-                  cursorId,
+                      ? [
+                          ...(al.listings || []).filter(
+                            oldListing =>
+                              listings &&
+                              !listings.find(
+                                newListing => newListing.id === oldListing.id,
+                              ),
+                          ),
+                          ...listings,
+                        ]
+                      : [
+                          ...listings,
+                          ...(al.listings || []).filter(
+                            oldListing =>
+                              listings &&
+                              !listings.find(
+                                newListing => newListing.id === oldListing.id,
+                              ),
+                          ),
+                        ],
+                  cursorIdNext:
+                    direction !== 'previous' ? cursorId : al.cursorIdNext,
+                  cursorIdPrevious:
+                    direction === 'previous' ? cursorId : al.cursorIdPrevious,
                   fetchingListingsStatus: fetchingStatuses.SUCCESS,
                 }
               : al,

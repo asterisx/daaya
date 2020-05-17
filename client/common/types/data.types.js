@@ -53,6 +53,7 @@ export type listingType = {
   +id: string,
   +images: Array<string>,
   +title: string,
+  +description? :string,
   +category: category,
   +address?: address,
   +telephone?: telephone,
@@ -64,3 +65,10 @@ export type institutionType = {
   +posts: Array<post>
 };
 
+export type metaType = {
+  +categories: Array<category>,
+}
+
+export type emptyActionType = {
+  type: string,
+}

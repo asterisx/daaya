@@ -11,20 +11,26 @@ import {
 import type {listingType} from '../../../common/types';
 import API from '../../../common/api';
 
-export const addListingThunk = (listing: listingType) => (
-  dispatch,
-  getState,
-) => {
+export const addListingThunk = ({
+  listing,
+  isDraft = true,
+}: {
+  listing: listingType,
+  isDraft: boolean,
+}) => (dispatch, getState) => {
   const {
     Listings: {newListingCounter},
   } = getState();
 
-  dispatch(addListing({listing, index: newListingCounter}));
+  dispatch(addListing({listing, index: newListingCounter, isDraft}));
 
-  API.addListing({listing})
+  API.addListing({listing, isDraft})
     .then(newListing =>
       dispatch(
-        addListingSuccess({index: newListingCounter, listing: newListing}),
+        addListingSuccess({
+          index: newListingCounter,
+          listing: newListing,
+        }),
       ),
     )
     .catch(error =>
@@ -40,7 +46,7 @@ export const addListingThunk = (listing: listingType) => (
 
 export const getListingsThunk = ({
   searchTerm,
-  direction = 'next',
+  direction,
   count = 10,
 }: {
   searchTerm: string,
@@ -54,9 +60,13 @@ export const getListingsThunk = ({
   API.getListings({
     searchTerm,
     direction,
-    cursorId: searchResults.find(({searchTerm: st}) => st === searchTerm)
-      .cursorId,
-      count
+    cursorId:
+      direction === 'next'
+        ? searchResults.find(({searchTerm: st}) => st === searchTerm)
+            .cursorIdNext
+        : searchResults.find(({searchTerm: st}) => st === searchTerm)
+            .cursorIdPrevious,
+    count,
   })
     .then(({searchResults, cursorId}) =>
       dispatch(
@@ -64,7 +74,7 @@ export const getListingsThunk = ({
           listings: searchResults,
           searchTerm,
           cursorId,
-          direction
+          direction,
         }),
       ),
     )

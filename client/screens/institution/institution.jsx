@@ -16,7 +16,7 @@ import type {institutionType} from '../../common/types';
 import {useDelayedLoader} from '../../common/hooks';
 import {getInstituteThunk} from '../../store/thunks';
 import {fetchingStatuses} from '../../store/actions';
-import {styles} from '../../common/styles';
+import {commonStyles} from '../../common/styles';
 
 type InstitutionProps = institutionType & {
   onPostClicked: ({id: number}) => void,
@@ -85,19 +85,19 @@ const InstitutionPage = ({
     institute.fetchingListingStatus === fetchingStatuses.FETCHING
   ) {
     return showLoader ? (
-      <View style={styles.fullScreenContainer}>
+      <View style={commonStyles.fullScreenContainer}>
         <ActivityIndicator />
-        <Text style={styles.marginTop20}>Loading...</Text>
+        <Text style={commonStyles.marginTop20}>Loading...</Text>
       </View>
     ) : null;
   } else if (
     institute.fetchingListingStatus === fetchingStatuses.ERROR
   ) {
     return (
-      <View style={styles.fullScreenContainer}>
+      <View style={commonStyles.fullScreenContainer}>
         <Text>Unable to fetch the listing</Text>
         <Button
-          style={styles.marginTop20}
+          style={commonStyles.marginTop20}
           title="Retry"
           onPress={() => getInstitute({id: navigation.getParam('id')})}
         />

@@ -2,7 +2,14 @@
 
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {Image, Text, View, ActivityIndicator, Button} from 'react-native';
+import {
+  Image,
+  View,
+  ActivityIndicator,
+  Button,
+  ScrollView,
+  Text,
+} from 'react-native';
 import Swiper from 'react-native-swiper';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
 import {useSafeArea} from 'react-native-safe-area-context';
@@ -13,34 +20,50 @@ import {styles} from './styles';
 import {getListingThunk} from '../../store/thunks/listing';
 import {fetchingStatuses} from '../../store/actions';
 import {useDelayedLoader} from '../../common/hooks';
+import {commonStyles} from '../../common/styles';
 
 const Listing = ({
   images = [],
   title,
+  description,
   category,
   address,
   telephone,
 }: listingType) => {
   const insets = useSafeArea();
   return (
-    <View style={{...styles.wrapper, paddingBottom: insets.bottom}}>
-      <Swiper containerStyle={styles.slideshow} height={240}>
-        {images.map((image, index) => (
-          <Image
-            key={`${image}-${index}`}
-            resizeMode="stretch"
-            style={styles.image}
-            source={{uri: image}}
-          />
-        ))}
-      </Swiper>
-      <View style={styles.infoSection}>
-        <Text style={styles.title}>{title}</Text>
-        <View style={styles.category}>
-          <Text style={styles.categoryText}>{category.value}</Text>
+    <View style={[styles.wrapper, {paddingBottom: insets.bottom}]}>
+      {images.length ? (
+        <Swiper containerStyle={styles.slideshow} height={240}>
+          {images.map((image, index) => (
+            <Image
+              key={`${image}-${index}`}
+              resizeMode="stretch"
+              style={styles.image}
+              source={{uri: image}}
+            />
+          ))}
+        </Swiper>
+      ) : null}
+      <ScrollView style={commonStyles.flex1}>
+        <View style={styles.infoSection}>
+          <Text style={styles.title}>{title}</Text>
+          <View style={[styles.category, commonStyles.marginTop10]}>
+            <Text style={styles.categoryText}>{category.value}</Text>
+          </View>
+          <View style={commonStyles.marginTop10}>
+            {address && <Address {...address} textStyle={{marginRight: 25}} />}
+          </View>
+          <Text
+            style={[
+              commonStyles.marginTop15,
+              styles.description,
+              {marginRight: 15},
+            ]}>
+            {description}
+          </Text>
         </View>
-        {address && <Address {...address} />}
-      </View>
+      </ScrollView>
       {telephone && (
         <View style={styles.options}>
           <Tel {...telephone} />
@@ -80,6 +103,7 @@ const ListingDetail = ({navigation, getListing, listing}: Props) => {
         id={listing.id}
         images={listing.images}
         title={listing.title}
+        description={listing.description}
         category={listing.category}
         address={listing.address}
         telephone={listing.telephone}

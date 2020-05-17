@@ -6,7 +6,11 @@ import {Icon} from 'react-native-elements';
 import {styles} from './styles';
 import type {address} from '../../types';
 
-const Address = ({address, location}: address) => (
+type Props = address & {
+  textStyle?: *,
+};
+
+const Address = ({address, location, textStyle}: Props) => (
   <TouchableOpacity
     style={styles.container}
     onPress={() =>
@@ -18,7 +22,7 @@ const Address = ({address, location}: address) => (
       )
     }>
     <Icon name="room" />
-    <Text>{address}</Text>
+    <Text style={textStyle}>{address}</Text>
   </TouchableOpacity>
 );
 

@@ -30,7 +30,7 @@ const HomeHeader = ({onSearchClick}: {onSearchClick: () => {}}) => (
   <SafeAreaView>
     <View style={styles.homeHeaderContainer}>
       <Logo />
-      <Text>Daaya</Text>
+      <Text style={{fontSize: 17}}>Daaya</Text>
       <Icon name="search" onPress={onSearchClick} />
     </View>
   </SafeAreaView>

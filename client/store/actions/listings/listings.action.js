@@ -19,18 +19,22 @@ export type addListingType = {
   +type: string,
   +index: number,
   +listing: listingType,
+  +isDraft: boolean,
 };
 
 export const addListing = ({
   index,
   listing,
+  isDraft,
 }: {
   index: number,
   listing: listingType,
+  isDraft: boolean,
 }): addListingType => ({
   type: ADD_LISTING,
   index,
   listing,
+  isDraft,
 });
 
 export type addListingSuccessType = {
@@ -92,30 +96,31 @@ export type listingsReceivedType = {
   +listings: Array<listingType>,
   +searchTerm: string,
   +cursorId: string,
-  +direction: string
+  +direction: string,
 };
 
 export const listingsReceived = ({
   listings,
   searchTerm,
   cursorId,
-    direction
+  direction,
 }: {
   +listings: Array<listingType>,
   +searchTerm: string,
   +cursorId: string,
-  +direction: string
+  +direction: string,
 }): listingsReceivedType => ({
   type: GET_LISTINGS_SUCCESS,
   listings,
   searchTerm,
   cursorId,
-  direction
+  direction,
 });
 
 export type listingsErrorType = {
   +type: string,
   +searchTerm: string,
+  +error: string
 };
 
 export const listingsError = ({
@@ -123,6 +128,7 @@ export const listingsError = ({
   error,
 }: {
   searchTerm: string,
+  error: string
 }): listingsErrorType => ({
   type: GET_LISTINGS_ERROR,
   searchTerm,

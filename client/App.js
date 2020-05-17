@@ -6,15 +6,19 @@
  * @flow
  */
 import 'react-native-gesture-handler';
-import React from 'react';
-import { createAppContainer} from 'react-navigation';
+import React, {useEffect} from 'react';
+import {createAppContainer} from 'react-navigation';
 import {Provider} from 'react-redux';
 import store from './store';
 import Navigator from './routes/home.route';
+import {getMetaThunk} from "./store/thunks/meta";
 
 const AppContainer = createAppContainer(Navigator);
 
 const App: () => React$Node = () => {
+  useEffect(() => {
+    store.dispatch(getMetaThunk());
+  }, []);
   return (
     <Provider store={store}>
       <AppContainer>

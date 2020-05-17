@@ -3,21 +3,20 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
+    marginTop: 30,
     padding: 20,
+    marginBottom: 20,
     backgroundColor: '#ffffff',
   },
   form: {
     alignSelf: 'stretch',
   },
-  button: {
-    height: 36,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
+  closeContainer: {
+    width: '100%',
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+  },
+  categoriesHeight: {
+    height: 45
   },
 });

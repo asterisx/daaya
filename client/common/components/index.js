@@ -1,4 +1,5 @@
 import Address from './address';
+import AddListing from "./add-listing";
 import Bio from './bio';
 import Email from './email';
 import Info from './info';
@@ -9,6 +10,7 @@ import {HomeHeader, SimpleHeader, SearchHeader, HeaderWrapper} from './header';
 
 export {
   Address,
+  AddListing,
   Bio,
   Email,
   HomeHeader,

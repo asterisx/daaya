@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     width: '100%',
-    margin: 10,
+    margin: 15,
   },
   image: {
     width,
@@ -35,10 +35,11 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold'
   },
+  description: {
+    padding: 2,
+  },
   category: {
     alignSelf: 'flex-start',
-    marginTop: 5,
-    marginBottom: 15,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 10,
