@@ -14,14 +14,25 @@ const Search = ({navigation}: Props) => {
   const [query, setQuery] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [searchSubmit, setOnSearchSubmit] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
 
   useEffect(() => {
       navigation.setParams({
-          onSearchChange: ({searchTerm}) => setQuery(searchTerm),
-          searchTerm: query,
+          onSearchChange: ({searchTerm}) => {
+              setQuery(searchTerm);
+              setIsEditing(true);
+          },
+          searchQuery: query,
+          searchTerm,
           onSearchSubmit: () => {
               setSearchTerm(query);
               setOnSearchSubmit(true);
+              setIsEditing(false);
+          },
+          isEditing,
+          cancelEditing: () => {
+              setIsEditing(false);
+              setQuery(searchTerm);
           }
       });
   }, [searchTerm, query]);

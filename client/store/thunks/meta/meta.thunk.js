@@ -5,13 +5,13 @@ import {
   refreshMeta,
   refreshMetaSuccess,
   refreshMetaError,
-  fetchingMetaStatutes,
-} from '../../actions/meta';
+  fetchingStatuses
+} from '../../actions';
 import API from '../../../common/api';
 
 export const getMetaThunk = () => (dispatch, getState) => {
   const {meta} = getState();
-  if (meta.fetchingStatus === fetchingMetaStatutes.NONE) {
+  if (meta.fetchingStatus === fetchingStatuses.NONE) {
     dispatch(getMeta());
 
     API.getMeta()

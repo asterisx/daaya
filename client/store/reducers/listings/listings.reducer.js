@@ -7,19 +7,23 @@ import {
   GET_LISTINGS,
   GET_LISTINGS_SUCCESS,
   GET_LISTINGS_ERROR,
+  CHANGE_FILTERS,
   addListingStatuses,
   fetchingStatuses,
 } from '../../actions';
-import type {inCompleteListing, listingType} from '../../../common/types';
+import type {listingType, searchFilterType} from '../../../common/types';
 import type {
   addListingErrorType,
   addListingSuccessType,
+  changeFiltersProps,
+  changeFiltersType,
   listingsErrorType,
   listingsReceivedType,
 } from '../../actions';
 
 type searchResultType = {
   searchTerm: string,
+  searchFilters?: searchFilterType,
   listings?: Array<listingType>,
   cursorIdPrevious?: string,
   cursorIdNext?: string,
@@ -58,7 +62,8 @@ const ListingsReducer = (
     | addListingSuccessType
     | addListingErrorType
     | listingsReceivedType
-    | listingsErrorType,
+    | listingsErrorType
+    | changeFiltersType,
 ): State => {
   switch (action.type) {
     case ADD_LISTING: {
@@ -107,6 +112,23 @@ const ListingsReducer = (
             l.index === listing.index
               ? {...l, addListingStatus: addListingStatuses.ERROR, error}
               : l,
+        ),
+      };
+    }
+    case CHANGE_FILTERS: {
+      const {searchTerm, searchFilters}: changeFiltersProps = action;
+      return {
+        ...state,
+        searchResults: state.searchResults.map<searchResultType>(
+          (al: searchResultType) =>
+            al.searchTerm === searchTerm
+              ? {
+                  ...al,
+                  listings: [],
+                  searchFilters,
+                  fetchingListingsStatus: fetchingStatuses.NONE,
+                }
+              : al,
         ),
       };
     }

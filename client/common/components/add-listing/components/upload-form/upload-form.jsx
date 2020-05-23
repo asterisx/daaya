@@ -17,12 +17,11 @@ import ImagePicker from 'react-native-image-picker';
 import {connect} from 'react-redux';
 import uniqBy from 'lodash.uniqby';
 
-import {addListingThunk} from '../../../store/thunks';
+import {addListingThunk} from '../../../../../store/thunks';
 import {styles} from './styles';
-import type {category, listingType} from '../../types';
-import {colors, commonStyles} from '../../styles';
-import LocationPicker from '../location-picker';
-import {ActionButton, InputField, ListingImage} from './components';
+import type {category, listingType} from '../../../../types';
+import {colors, commonStyles} from '../../../../styles';
+import {ActionButton, InputField, ListingImage, LocationPicker} from './components';
 
 type props = {
   categories?: Array<category>,
@@ -369,13 +368,13 @@ const UploadForm = ({
       <Modal visible={showLocationPicker}>
         <LocationPicker
           address={address}
-          onClose={({address, location: {latitude, longitude}}) => {
+          onClose={({address, location: {lat, lng}}) => {
             dispatch({
               type: actions.SET_ADDRESS,
               value: {
                 formatted: address,
-                lat: latitude,
-                lng: longitude,
+                lat,
+                lng,
               },
             });
             setShowLocationPicker(false);

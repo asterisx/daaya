@@ -40,8 +40,17 @@ export const commonStyles = StyleSheet.create({
   marginLeft20: {
     marginLeft: 20,
   },
+  marginRight20: {
+    marginRight: 20,
+  },
   marginLeft10: {
     marginLeft: 10,
+  },
+  marginRight10: {
+    marginRight: 10,
+  },
+  marginRight5: {
+    marginRight: 5,
   },
   fontLarge: {
     fontSize: 20,
@@ -93,9 +102,13 @@ export const commonStyles = StyleSheet.create({
   positionAbsolute: {
     position: 'absolute',
   },
+  alignSelfEnd: {
+    alignSelf: 'flex-end',
+  },
 });
 
 export const colors = {
   primary: '#1565c0',
   success: '#8bc34a',
+  danger: 'red',
 };

@@ -25,8 +25,11 @@ const screens = {
       header: () => (
         <SearchHeader
           onSearchChange={navigation.state.params.onSearchChange}
-          searchTerm={navigation.state.params.query}
+          searchQuery={navigation.state.params.searchQuery}
+          searchTerm={navigation.state.params.searchTerm}
+          isEditing={navigation.state.params.isEditing}
           onSearchSubmit={navigation.state.params.onSearchSubmit}
+          cancelEditing={navigation.state.params.cancelEditing}
           onGoBack={() => navigation.goBack()}
           searchOpen
         />

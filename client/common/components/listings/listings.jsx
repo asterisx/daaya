@@ -56,7 +56,7 @@ const Listings = ({
 
   useEffect(() => {
     getListings({searchTerm});
-  }, [searchTerm]);
+  }, [searchTerm, fetchingListingsStatus === fetchingStatuses.NONE]);
 
   return (
     <View style={styles.main}>

@@ -6,7 +6,7 @@ import Image from 'react-native-scalable-image';
 import {Icon} from 'react-native-elements';
 
 import {styles} from './styles';
-import {commonStyles} from '../../../../styles';
+import {commonStyles} from '../../../../../../styles';
 
 type Props = {
   uri: string,

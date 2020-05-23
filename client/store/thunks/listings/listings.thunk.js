@@ -57,16 +57,17 @@ export const getListingsThunk = ({
   const {
     Listings: {searchResults},
   } = getState();
+
+  const {cursorIdNext, cursorIdPrevious, searchFilters} = searchResults.find(
+    ({searchTerm: st}) => st === searchTerm,
+  );
+
   API.getListings({
     searchTerm,
     direction,
-    cursorId:
-      direction === 'next'
-        ? searchResults.find(({searchTerm: st}) => st === searchTerm)
-            .cursorIdNext
-        : searchResults.find(({searchTerm: st}) => st === searchTerm)
-            .cursorIdPrevious,
+    cursorId: direction === 'next' ? cursorIdNext : cursorIdPrevious,
     count,
+    searchFilters,
   })
     .then(({searchResults, cursorId}) =>
       dispatch(

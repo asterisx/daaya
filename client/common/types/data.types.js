@@ -72,3 +72,9 @@ export type metaType = {
 export type emptyActionType = {
   type: string,
 }
+
+export type searchFilterType = {
+  +categories: Array<number>,
+  +range?: number,
+  +location?: location,
+}
