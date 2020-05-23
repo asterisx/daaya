@@ -1,7 +1,7 @@
 // @flow
 
 import React from "react";
-import {commonStyles} from '../../../../styles';
+import {commonStyles} from '../../../../../../styles';
 import {View} from 'react-native';
 import {Icon} from 'react-native-elements';
 

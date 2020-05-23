@@ -11,14 +11,6 @@ export const REFRESH_META = 'REFRESH_META';
 export const REFRESH_META_SUCCESS = 'REFRESH_META_SUCCESS';
 export const REFRESH_META_ERROR = 'REFRESH_META_ERROR';
 
-export const fetchingMetaStatutes = {
-  FETCHING: 'FETCHING',
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR',
-  REFRESHING: 'REFRESHING',
-  NONE: 'NONE',
-};
-
 export const getMeta = (): emptyActionType => ({
   type: GET_META,
 });

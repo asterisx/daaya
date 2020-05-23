@@ -49,8 +49,9 @@ const getCursorId = ({results, direction}) => {
 };
 
 export default {
-  getListings: ({searchTerm, cursorId, direction, count}) =>
+  getListings: ({searchTerm, cursorId, direction, count, searchFilters}) =>
     new Promise((resolve, reject) => {
+      console.log(searchFilters);
       const allResults = listings.filter(
         ({title}) => title.indexOf(searchTerm.toLowerCase()) >= 0,
       );

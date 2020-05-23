@@ -3,7 +3,7 @@
 import React from 'react';
 import {Button} from 'react-native-elements';
 
-import {colors} from '../../../../styles';
+import {colors} from '../../../../../../styles';
 import {styles} from './styles';
 
 type Props = {

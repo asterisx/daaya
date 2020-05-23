@@ -1,6 +1,6 @@
 // @flow
 
-import type {listingType} from '../../../common/types';
+import type {listingType, searchFilterType} from '../../../common/types';
 
 export const ADD_LISTING = 'ADD_LISTING';
 export const ADD_LISTING_SUCCESS = 'ADD_LISTING_SUCCESS';
@@ -8,6 +8,8 @@ export const ADD_LISTING_ERROR = 'ADD_LISTING_ERROR';
 export const GET_LISTINGS = 'GET_LISTINGS';
 export const GET_LISTINGS_SUCCESS = 'GET_LISTINGS_SUCCESS';
 export const GET_LISTINGS_ERROR = 'GET_LISTINGS_ERROR';
+
+export const CHANGE_FILTERS = 'CHANGE_FILTERS';
 
 export const addListingStatuses = {
   ADDING: 'ADDING',
@@ -120,7 +122,7 @@ export const listingsReceived = ({
 export type listingsErrorType = {
   +type: string,
   +searchTerm: string,
-  +error: string
+  +error: string,
 };
 
 export const listingsError = ({
@@ -128,9 +130,29 @@ export const listingsError = ({
   error,
 }: {
   searchTerm: string,
-  error: string
+  error: string,
 }): listingsErrorType => ({
   type: GET_LISTINGS_ERROR,
   searchTerm,
   error,
+});
+
+export type changeFiltersType = {
+  +type: string,
+  +searchTerm: string,
+  +searchFilters: searchFilterType,
+};
+
+export type changeFiltersProps = {
+  +searchTerm: string,
+  +searchFilters: searchFilterType,
+};
+
+export const changeFilters = ({
+  searchTerm,
+  searchFilters,
+}: changeFiltersProps): changeFiltersType => ({
+  type: CHANGE_FILTERS,
+  searchTerm,
+  searchFilters,
 });

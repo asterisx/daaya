@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const headerPadding = {
   paddingHorizontal: 10,
-  paddingVertical: 10
+  paddingVertical: 10,
 };
 
 const commonHeaderStyle = {
@@ -11,8 +11,8 @@ const commonHeaderStyle = {
   flexDirection: 'row',
   alignItems: 'center',
   backgroundColor: 'white',
-  ...headerPadding
-}
+  ...headerPadding,
+};
 
 export const styles = StyleSheet.create({
   homeHeaderContainer: {
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   headerContainer: {
-    ...commonHeaderStyle
+    ...commonHeaderStyle,
   },
   headerTitle: {},
   headerLogo: {
@@ -30,8 +30,5 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row-reverse',
     alignItems: 'center',
-  },
-  searchInput: {
-    flex: 1
-  },
+  }
 });

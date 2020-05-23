@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import {View, Modal, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
-import UploadForm from '../upload-form';
+import {UploadForm} from './components';
 import {styles} from './styles';
 
 export const AddListing = ({}) => {

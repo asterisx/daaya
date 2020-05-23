@@ -1,7 +1,8 @@
 import Address from './address';
-import AddListing from "./add-listing";
+import AddListing from './add-listing';
 import Bio from './bio';
 import Email from './email';
+import Filters from './filters';
 import Info from './info';
 import Listings from './listings';
 import Posts from './posts';
@@ -13,6 +14,7 @@ export {
   AddListing,
   Bio,
   Email,
+  Filters,
   HomeHeader,
   Info,
   Listings,
