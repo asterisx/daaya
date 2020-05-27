@@ -9,11 +9,11 @@ import {
   REFRESH_META_ERROR,
   fetchingStatuses
 } from '../../actions';
-import type {category, emptyActionType, metaType} from '../../../common/types';
+import type {categoryType, emptyActionType, metaType} from '../../../common/types';
 import type {metaSuccessType} from '../../actions';
 
 type State = {
-  +categories: Array<category>,
+  +categories: Array<categoryType>,
   +fetchingStatus:
     | fetchingStatuses.FETCHING
     | fetchingStatuses.REFRESHING

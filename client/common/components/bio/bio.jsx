@@ -3,9 +3,9 @@
 import React from 'react';
 import {Image, Text, View} from 'react-native';
 import {styles} from './styles';
-import type {bio} from "../../types";
+import type {bioType} from "../../types";
 
-const Bio = ({institutionName, bannerSrc, avatar}: bio) => (
+const Bio = ({institutionName, bannerSrc, avatar}: bioType) => (
   <View style={styles.container}>
     <Image source={bannerSrc} style={styles.bannerImage} />
     <Image source={avatar} style={styles.avatar} />

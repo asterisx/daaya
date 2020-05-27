@@ -1,48 +1,5 @@
-// @flow
-
-import {
-  addListingSuccess,
-  addListingError,
-  listingsError,
-  listingsReceived,
-  addListing,
-  getListings,
-} from '../../actions';
-import type {listingType} from '../../../common/types';
+import {listingsError, listingsReceived, getListings} from '../../actions';
 import API from '../../../common/api';
-
-export const addListingThunk = ({
-  listing,
-  isDraft = true,
-}: {
-  listing: listingType,
-  isDraft: boolean,
-}) => (dispatch, getState) => {
-  const {
-    Listings: {newListingCounter},
-  } = getState();
-
-  dispatch(addListing({listing, index: newListingCounter, isDraft}));
-
-  API.addListing({listing, isDraft})
-    .then(newListing =>
-      dispatch(
-        addListingSuccess({
-          index: newListingCounter,
-          listing: newListing,
-        }),
-      ),
-    )
-    .catch(error =>
-      dispatch(
-        addListingError({
-          index: newListingCounter,
-          listing,
-          error,
-        }),
-      ),
-    );
-};
 
 export const getListingsThunk = ({
   searchTerm,

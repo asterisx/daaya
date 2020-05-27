@@ -1,4 +1,5 @@
 import faker from 'faker';
+import {uploadStatuses} from '../constants';
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -11,7 +12,7 @@ const categories = ['Food', 'Health', 'Education'];
 while (listings.length < 200) {
   const index = getRandomInt(3);
   listings.push({
-    id: listings.length,
+    id: listings.length + 1,
     images: Array.from(
       {length: getRandomInt(11)},
       () => 'https://picsum.photos/600/480',
@@ -36,6 +37,19 @@ while (listings.length < 200) {
   });
 }
 
+let myListings = [];
+
+while (myListings.length < 100) {
+  const index = getRandomInt(3);
+  myListings.push({
+    id: myListings.length + 1,
+    image: getRandomInt(2) === 1 ? 'https://picsum.photos/600/480' : undefined,
+    title: faker.lorem.sentence(),
+    category: categories[index],
+    status: uploadStatuses.UPLOADED,
+  });
+}
+
 const getCursorId = ({results, direction}) => {
   if (results.length) {
     if (direction === 'previous') {
@@ -51,7 +65,6 @@ const getCursorId = ({results, direction}) => {
 export default {
   getListings: ({searchTerm, cursorId, direction, count, searchFilters}) =>
     new Promise((resolve, reject) => {
-      console.log(searchFilters);
       const allResults = listings.filter(
         ({title}) => title.indexOf(searchTerm.toLowerCase()) >= 0,
       );
@@ -88,11 +101,54 @@ export default {
         }
       }, Math.random(1) * 1000);
     }),
-  addListing: ({listing, isDraft}) =>
+  getMyListings: ({cursorId, direction, count}) =>
+    new Promise((resolve, reject) => {
+      let results = [];
+      if (direction === 'next') {
+        const nextResults = cursorId
+          ? myListings.filter(({id}) => +id > +cursorId)
+          : [];
+        results = nextResults.slice(0, count);
+      } else if (direction === 'previous') {
+        const previousResults = cursorId
+          ? myListings.filter(({id}) => +id < +cursorId)
+          : [];
+        results = previousResults
+          .reverse()
+          .slice(0, count)
+          .reverse();
+      } else {
+        results = myListings.slice(0, count);
+      }
+      setTimeout(() => {
+        if (results.length) {
+          resolve({
+            listings: results.map(({id, title, image, category, status}) => ({
+              id,
+              title,
+              image,
+              category,
+              status,
+            })),
+            cursorId: getCursorId({results, direction}),
+          });
+        } else {
+          reject('No results found!');
+        }
+      }, Math.random(1) * 1000);
+    }),
+  addListing: ({listing}) =>
     new Promise((resolve, reject) => {
       setTimeout(() => {
-        const newListing = {...listing, id: faker.random.uuid()};
+        const newListing = {...listing, id: listings.length + 1};
         resolve(newListing);
+      }, 1000);
+    }),
+  deleteListing: ({id}) =>
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        myListings = myListings.filter(({id: mlid}) => mlid !== id);
+        resolve();
       }, Math.random(1) * 1000);
     }),
   getListing: ({id}) =>
@@ -122,5 +178,19 @@ export default {
           `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()}`,
         );
       }, Math.random(1) * 1000);
+    }),
+  uploadImage: ({image, listingId}) =>
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+          console.log(image, listingId);
+        resolve();
+      }, Math.random(1) * 5000);
+    }),
+  deleteUploadedImagesForListing: ({listingId}) =>
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+          console.log("deleteUploadedImagesForListing");
+        resolve();
+      }, Math.random(1) * 5000);
     }),
 };

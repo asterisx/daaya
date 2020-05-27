@@ -1,68 +1,11 @@
-import React from 'react';
-import {createStackNavigator} from 'react-navigation-stack';
-import {Home, Search, Institution, ListingDetail} from '../screens';
-import {
-  HeaderWrapper,
-  HomeHeader,
-  SearchHeader,
-  SimpleHeader,
-} from '../common/components/header';
+import {createDrawerNavigator} from 'react-navigation-drawer';
 
-const screens = {
-  Home: {
-    screen: Home,
-    navigationOptions: ({navigation}) => ({
-      header: () => (
-        <HomeHeader
-          onSearchClick={() => navigation.navigate('Search', {searchTerm: ''})}
-        />
-      ),
-    }),
-  },
-  Search: {
-    screen: Search,
-    navigationOptions: ({navigation}) => ({
-      header: () => (
-        <SearchHeader
-          onSearchChange={navigation.state.params.onSearchChange}
-          searchQuery={navigation.state.params.searchQuery}
-          searchTerm={navigation.state.params.searchTerm}
-          isEditing={navigation.state.params.isEditing}
-          onSearchSubmit={navigation.state.params.onSearchSubmit}
-          cancelEditing={navigation.state.params.cancelEditing}
-          onGoBack={() => navigation.goBack()}
-          searchOpen
-        />
-      ),
-    }),
-  },
-  Institution: {
-    screen: Institution,
-    navigationOptions: ({navigation}) => ({
-      header: () => (
-        <SimpleHeader
-          title={navigation.state.params.title}
-          onGoBack={() => navigation.goBack()}
-        />
-      ),
-    }),
-  },
-  ListingDetail: {
-    screen: ListingDetail,
-    navigationOptions: ({navigation}) => ({
-      header: () => (
-        <HeaderWrapper onGoBack={() => navigation.goBack()}>
-          {navigation.state.params.title ? React.cloneElement(navigation.state.params.title): null}
-        </HeaderWrapper>
-      ),
-    }),
-  },
-};
+import HomeStack from './home.stack';
+import UploadsStack from './uploads.stack';
 
-const HomeStack = createStackNavigator(screens, {
-  defaultNavigationOptions: {
-    headerShown: true,
-  },
+const MainNavigator = createDrawerNavigator({
+  Home: HomeStack,
+  Uploads: UploadsStack,
 });
 
-export default HomeStack;
+export default MainNavigator;

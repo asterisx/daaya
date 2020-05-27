@@ -1,19 +1,7 @@
 import {StyleSheet} from 'react-native';
+import {colors} from '../../styles';
 
 export const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-    paddingTop: 10,
-  },
-  header: {
-    paddingTop: 10,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-  },
   image: {
     height: 200,
   },
@@ -22,6 +10,6 @@ export const styles = StyleSheet.create({
   },
   category: {
     paddingTop: 5,
-    color: '#F2784B',
+    color: colors.warning,
   },
 });

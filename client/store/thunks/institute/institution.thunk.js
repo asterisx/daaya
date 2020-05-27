@@ -1,5 +1,3 @@
-// @flow
-
 import {getInstitute, instituteError, instituteReceived} from '../../actions';
 import API from '../../../common/api';
 

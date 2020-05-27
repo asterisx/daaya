@@ -11,5 +11,13 @@ export const styles = StyleSheet.create({
     bottom: 30,
     borderRadius: 30,
     backgroundColor: '#2196f3',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.36,
+    shadowRadius: 7,
+    elevation: 11,
   },
 });

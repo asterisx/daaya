@@ -4,9 +4,9 @@ import React from 'react';
 import {Platform, Linking, Text, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {styles} from './styles';
-import type {address} from '../../types';
+import type {addressType} from '../../types';
 
-type Props = address & {
+type Props = addressType & {
   textStyle?: *,
 };
 

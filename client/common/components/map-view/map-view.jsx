@@ -6,7 +6,7 @@ import RNMapView, {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
 import {commonStyles} from '../../styles';
-import type {location} from '../../types';
+import type {locationType} from '../../types';
 
 const {width, height} = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -14,7 +14,7 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 type Props = {
-  onLocationChange: ({location: location}) => void,
+  onLocationChange: ({location: locationType}) => void,
   children?: *,
 };
 

@@ -33,88 +33,19 @@ type searchResultType = {
     | fetchingStatuses.SUCCESS,
 };
 
-type newListingType = {
-  index: number,
-  listing: listingType,
-  addListingStatus:
-    | addListingStatuses.ADDING
-    | addListingStatuses.SUCCESS
-    | addListingStatuses.ERROR,
-  error?: string,
-  isDraft: boolean,
-};
-
 type State = {
   searchResults: Array<searchResultType>,
-  newListings: Array<newListingType>,
-  newListingCounter: number,
 };
 
 const initialState: State = {
   searchResults: [],
-  newListings: [],
-  newListingCounter: 0,
 };
 
 const ListingsReducer = (
   state: State = initialState,
-  action:
-    | addListingSuccessType
-    | addListingErrorType
-    | listingsReceivedType
-    | listingsErrorType
-    | changeFiltersType,
+  action: listingsReceivedType | listingsErrorType | changeFiltersType,
 ): State => {
   switch (action.type) {
-    case ADD_LISTING: {
-      const {
-        listing,
-        index,
-        isDraft,
-      }: {listing: listingType, index: number, isDraft: boolean} = action;
-      return {
-        ...state,
-        newListings: [
-          ...state.newListings,
-          {
-            index,
-            listing,
-            addListingStatus: addListingStatuses.ADDING,
-            error: undefined,
-            isDraft,
-          },
-        ],
-        newListingCounter: state.newListingCounter + 1,
-      };
-    }
-    case ADD_LISTING_SUCCESS: {
-      const {listing}: {listing: listingType, isDraft: boolean} = action;
-      return {
-        ...state,
-        newListings: state.newListings.map<newListingType>(
-          (l: newListingType) =>
-            l.index === listing.index
-              ? {
-                  ...l,
-                  addListingStatus: addListingStatuses.SUCCESS,
-                  error: undefined,
-                }
-              : l,
-        ),
-      };
-    }
-    case ADD_LISTING_ERROR: {
-      const {listing, error} = action;
-      return {
-        ...state,
-        newListings: state.newListings.map<newListingType>(
-          (l: newListingType) =>
-            l.index === listing.index
-              ? {...l, addListingStatus: addListingStatuses.ERROR, error}
-              : l,
-        ),
-      };
-    }
     case CHANGE_FILTERS: {
       const {searchTerm, searchFilters}: changeFiltersProps = action;
       return {

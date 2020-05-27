@@ -1,4 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
+import {colors} from "../../common/styles";
 const {width} = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
@@ -43,7 +44,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 10,
-    backgroundColor: '#F2784B'
+    backgroundColor: colors.warning
   },
   categoryText: {
     fontSize: 12,

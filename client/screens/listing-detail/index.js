@@ -1,1 +1,1 @@
-export {default} from './listing-detail';
+export {default} from './listing-detail.screen';

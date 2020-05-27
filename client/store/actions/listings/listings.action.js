@@ -2,82 +2,11 @@
 
 import type {listingType, searchFilterType} from '../../../common/types';
 
-export const ADD_LISTING = 'ADD_LISTING';
-export const ADD_LISTING_SUCCESS = 'ADD_LISTING_SUCCESS';
-export const ADD_LISTING_ERROR = 'ADD_LISTING_ERROR';
 export const GET_LISTINGS = 'GET_LISTINGS';
 export const GET_LISTINGS_SUCCESS = 'GET_LISTINGS_SUCCESS';
 export const GET_LISTINGS_ERROR = 'GET_LISTINGS_ERROR';
 
 export const CHANGE_FILTERS = 'CHANGE_FILTERS';
-
-export const addListingStatuses = {
-  ADDING: 'ADDING',
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR',
-};
-
-export type addListingType = {
-  +type: string,
-  +index: number,
-  +listing: listingType,
-  +isDraft: boolean,
-};
-
-export const addListing = ({
-  index,
-  listing,
-  isDraft,
-}: {
-  index: number,
-  listing: listingType,
-  isDraft: boolean,
-}): addListingType => ({
-  type: ADD_LISTING,
-  index,
-  listing,
-  isDraft,
-});
-
-export type addListingSuccessType = {
-  +type: string,
-  +index: number,
-  +listing: listingType,
-};
-
-export const addListingSuccess = ({
-  index,
-  listing,
-}: {
-  index: number,
-  listing: listingType,
-}): addListingSuccessType => ({
-  type: ADD_LISTING_SUCCESS,
-  index,
-  listing,
-});
-
-export type addListingErrorType = {
-  +type: string,
-  +index: number,
-  +listing: listingType,
-  +error: string,
-};
-
-export const addListingError = ({
-  index,
-  listing,
-  error,
-}: {
-  index: number,
-  listing: listingType,
-  error: string,
-}): addListingErrorType => ({
-  type: ADD_LISTING_ERROR,
-  index,
-  listing,
-  error,
-});
 
 export type getListingType = {
   type: string,
