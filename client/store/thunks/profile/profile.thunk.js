@@ -33,7 +33,7 @@ export const addListingThunk = (
             API.uploadImage({image, listingId: listing.id}),
           )
         : []),
-      API.addListing({listing: {...listing, images: []}}),
+      await API.addListing({listing: {...listing, images: []}}),
     ];
 
     for (let i = 0; i < actions.length; i++) {

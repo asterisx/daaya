@@ -74,6 +74,7 @@ const initialState = {
   title: '',
   description: '',
   images: [],
+  category: undefined,
   address: {
     formatted: '',
     lat: null,
@@ -132,29 +133,35 @@ const UploadForm = ({
       telephone,
     },
     dispatch,
-  ] = useReducer(reducer, {
-    title: listing.title || initialState.title,
-    images: listing.images || initialState.images,
-    address: listing.address || initialState.address,
-    category: listing.category !== undefined ? listing.category.id : undefined,
-    showAddress: !!listing.address,
-    showContact: !!listing.telephone,
-    telephone: listing.telephone || initialState.telephone,
-  });
+  ] = useReducer(
+    reducer,
+    listing
+      ? {
+          title: listing.title || initialState.title,
+          images: listing.images || initialState.images,
+          address: listing.address || initialState.address,
+          category:
+            listing.category !== undefined
+              ? listing.category.id
+              : initialState.category,
+          showAddress: !!listing.address,
+          showContact: !!listing.telephone,
+          telephone: listing.telephone || initialState.telephone,
+        }
+      : initialState,
+  );
 
   useEffect(() => {
-    if (listing.category || categories.length) {
+    if (categories.length || listing) {
       dispatch({
         type: actions.SET_CATEGORY,
         value:
-          listing.category !== undefined
+          !!listing && listing.category !== undefined
             ? listing.category.id
             : categories[0].id,
       });
     }
-  }, [categories, listing.category]);
-
-  console.log(category, listing.category.id);
+  }, [categories, listing]);
 
   return (
     <View style={styles.container}>
