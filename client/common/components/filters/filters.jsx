@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import isEqual from 'lodash.isequal';
 
 import {FiltersForm} from './components';
-import type {category, searchFilterType} from '../../types';
+import type {categoryType, searchFilterType} from '../../types';
 import {changeFilters} from '../../../store/actions/listings';
 import type {changeFiltersProps} from '../../../store/actions/listings';
 import {fetchingStatuses} from '../../../store/actions';
@@ -17,7 +17,7 @@ type Props = {
   searchFilters?: searchFilterType,
   changeFilters: changeFiltersProps => void,
   hide?: boolean,
-  categories: Array<category>,
+  categories: Array<categoryType>,
   areCategoriesLoading: boolean,
 };
 
@@ -45,7 +45,7 @@ const Filters = ({
           type="font-awesome"
           size={22}
           color="#000"
-          disabledStyle={{color: 'grey'}}
+          disabledStyle={{opacity: 0.5}}
           disabled={areCategoriesLoading}
         />
       </TouchableOpacity>

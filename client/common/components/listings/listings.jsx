@@ -2,15 +2,7 @@
 
 import React, {useEffect, useCallback} from 'react';
 import {connect} from 'react-redux';
-import {
-  Text,
-  View,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  RefreshControl,
-  ActivityIndicator,
-} from 'react-native';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-elements';
 import debounce from 'lodash.debounce';
 
@@ -19,26 +11,18 @@ import {styles} from './styles';
 import {getListingsThunk} from '../../../store/thunks/listings';
 import AddListing from '../add-listing';
 import {fetchingStatuses} from '../../../store/actions';
-import {colors, commonStyles} from '../../styles';
 import {useDelayedLoader} from '../../hooks';
+import InfiniteRefreshableScrollView from '../infinite-refreshable-scrolll-view';
+import {commonStyles} from '../../styles';
 
 type Props = {
   listings: Array<listingType>,
-  onListingClick: ({id: number}) => void,
+  onListingClick: ({id: string}) => void,
   searchTerm: string,
-  next?: string,
   fetchingListingsStatus:
     | fetchingStatuses.FETCHING
     | fetchingStatuses.ERROR
     | fetchingStatuses.SUCCESS,
-};
-
-const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
-  const paddingToBottom = 20;
-  return (
-    layoutMeasurement.height + contentOffset.y >=
-    contentSize.height - paddingToBottom
-  );
 };
 
 const Listings = ({
@@ -59,66 +43,45 @@ const Listings = ({
   }, [searchTerm, fetchingListingsStatus === fetchingStatuses.NONE]);
 
   return (
-    <View style={styles.main}>
-      <ScrollView
-        onScroll={({nativeEvent}) => {
-          if (
-            isCloseToBottom(nativeEvent) &&
-            fetchingListingsStatus !== fetchingStatuses.FETCHING
-          ) {
-            loadNext({
-              searchTerm,
-              direction: 'next',
-            });
-          }
-        }}
-        scrollEventThrottle={400}
-        refreshControl={
-          <RefreshControl
-            refreshing={false}
-            onRefresh={() =>
-              getListings({
-                searchTerm,
-                direction: 'previous',
-              })
-            }
-          />
-        }>
-        <View style={styles.container}>
-          {listings.map(listing => (
-            <TouchableOpacity
-              key={listing.id}
-              onPress={() => onListingClick({id: listing.id})}>
-              <Card>
-                <View>
-                  {listing.images.length ? (
-                    <Image
-                      style={styles.image}
-                      resizeMode="cover"
-                      source={{uri: listing.images[0]}}
-                    />
-                  ) : null}
-                  <Text style={styles.title}>{listing.title}</Text>
-                  <Text style={styles.category}>
-                    in {listing.category.value}
-                  </Text>
-                </View>
-              </Card>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </ScrollView>
+    <View style={[commonStyles.flex1, commonStyles.marginTop10]}>
+      <InfiniteRefreshableScrollView
+        canLoadMore={fetchingListingsStatus !== fetchingStatuses.FETCHING}
+        loadMore={() =>
+          loadNext({
+            searchTerm,
+            direction: 'next',
+          })
+        }
+        onRefresh={() =>
+          getListings({
+            searchTerm,
+            direction: 'previous',
+          })
+        }
+        showLoader={showLoader}
+        data={listings}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            key={item.id}
+            onPress={() => onListingClick({id: item.id})}>
+            <Card>
+              <View>
+                {item.images.length ? (
+                  <Image
+                    style={styles.image}
+                    resizeMode="cover"
+                    source={{uri: item.images[0]}}
+                  />
+                ) : null}
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.category}>in {item.category.value}</Text>
+              </View>
+            </Card>
+          </TouchableOpacity>
+        )}
+        keyExtractor={item => item.id}
+      />
       <AddListing />
-      {showLoader ? (
-        <View
-          style={[
-            {position: 'absolute', height: 100},
-            commonStyles.flexRowJustifyAlignCenter,
-            commonStyles.widthFull,
-          ]}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      ) : null}
     </View>
   );
 };

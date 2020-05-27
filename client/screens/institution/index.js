@@ -1,1 +1,1 @@
-export {default} from './institution';
+export {default} from './institution.screen';

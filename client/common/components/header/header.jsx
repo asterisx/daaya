@@ -34,10 +34,21 @@ const Header = ({children, onGoBack}: {children: *, onGoBack: () => {}}) => (
   </SafeAreaView>
 );
 
-const HomeHeader = ({onSearchClick}: {onSearchClick: () => {}}) => (
+const HomeHeader = ({
+  toggleDrawer,
+  onSearchClick,
+}: {
+  onSearchClick: () => {},
+}) => (
   <SafeAreaView>
     <View style={styles.homeHeaderContainer}>
       <View style={commonStyles.flexRowJustifyAlignCenter}>
+        <TouchableOpacity
+          onPress={toggleDrawer}
+          style={[commonStyles.marginRight5]}>
+          <Icon name="menu" />
+        </TouchableOpacity>
+
         <Logo />
         <Text style={{fontSize: 17}}>Daaya</Text>
       </View>
@@ -66,6 +77,19 @@ const SimpleHeader = ({title, onGoBack}: {title: string}) => (
   <Header onGoBack={onGoBack}>
     <Text style={styles.headerTitle}>{title}</Text>
   </Header>
+);
+
+const MenuHeader = ({toggleDrawer, title}: {title: string}) => (
+  <SafeAreaView>
+    <View style={styles.headerContainer}>
+      <TouchableOpacity
+        onPress={toggleDrawer}
+        style={[commonStyles.marginRight5]}>
+        <Icon name="menu" />
+      </TouchableOpacity>
+      <Text style={{fontSize: 17}}>{title}</Text>
+    </View>
+  </SafeAreaView>
 );
 
 const SearchHeader = ({
@@ -135,4 +159,4 @@ const SearchHeader = ({
   );
 };
 
-export {HomeHeader, SimpleHeader, SearchHeader, HeaderWrapper};
+export {HomeHeader, SimpleHeader, SearchHeader, HeaderWrapper, MenuHeader};

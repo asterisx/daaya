@@ -3,10 +3,10 @@
 import React from "react";
 import {FlatList} from 'react-native';
 import Post from '../post';
-import type {post} from "../../types";
+import type {postType} from "../../types";
 
 type Props = {
-  posts: Array<post>,
+  posts: Array<postType>,
   onPostClicked: ({id: string}) => void
 };
 

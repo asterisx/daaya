@@ -9,9 +9,11 @@ import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
 import {createAppContainer} from 'react-navigation';
 import {Provider} from 'react-redux';
+import FlashMessage from 'react-native-flash-message';
+
 import store from './store';
 import Navigator from './routes/home.route';
-import {getMetaThunk} from "./store/thunks/meta";
+import {getMetaThunk} from './store/thunks/meta';
 
 const AppContainer = createAppContainer(Navigator);
 
@@ -24,6 +26,7 @@ const App: () => React$Node = () => {
       <AppContainer>
         <Navigator />
       </AppContainer>
+      <FlashMessage position="top" />
     </Provider>
   );
 };

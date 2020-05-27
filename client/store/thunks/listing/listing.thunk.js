@@ -1,5 +1,3 @@
-// @flow
-
 import {getListing, listingError, listingReceived} from '../../actions';
 import API from '../../../common/api';
 

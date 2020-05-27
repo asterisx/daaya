@@ -1,11 +1,13 @@
 // @flow
 
-export type location = {
+import {uploadStatuses} from '../constants';
+
+export type locationType = {
   lat: number,
   lng: number,
 };
 
-export type post = {
+export type postType = {
   id: string,
   image: string,
   poster: {
@@ -16,35 +18,35 @@ export type post = {
   post: string,
 };
 
-export type category = {
+export type categoryType = {
   id: number,
   value: string,
 };
 
-export type address = {
+export type addressType = {
   address: string,
-  location?: location
-}
+  location?: locationType,
+};
 
-export type telephone = {
+export type telephoneType = {
   name: string,
   telephone: string,
-}
+};
 
-export type email = {
+export type emailType = {
   name: string,
   email: string,
-}
+};
 
-export type institutionInfo = {
+export type institutionInfoType = {
   +id: string,
-  +addresses: Array<address>,
-  +telephones: Array<telephone>,
-  +emails: Array<email>,
+  +addresses: Array<addressType>,
+  +telephones: Array<telephoneType>,
+  +emails: Array<emailType>,
   +workingTimes: Array<string>,
-}
+};
 
-export type bio = {
+export type bioType = {
   institutionName: string,
   bannerSrc: string,
 };
@@ -53,28 +55,61 @@ export type listingType = {
   +id: string,
   +images: Array<string>,
   +title: string,
-  +description? :string,
-  +category: category,
-  +address?: address,
-  +telephone?: telephone,
+  +description?: string,
+  +category: categoryType,
+  +address?: addressType,
+  +telephone?: telephoneType,
 };
 
 export type institutionType = {
-  +bio: bio,
-  +info: institutionInfo,
-  +posts: Array<post>
+  +bio: bioType,
+  +info: institutionInfoType,
+  +posts: Array<postType>,
 };
 
 export type metaType = {
-  +categories: Array<category>,
-}
+  +categories: Array<categoryType>,
+};
 
 export type emptyActionType = {
   type: string,
-}
+};
 
 export type searchFilterType = {
   +categories: Array<number>,
   +range?: number,
-  +location?: location,
-}
+  +location?: locationType,
+};
+
+export type myListingType = {
+  +id: string,
+  +title?: string,
+  +image?: string,
+  +category?: string,
+  +status?:
+    | uploadStatuses.UPLOADED
+    | uploadStatuses.UPLOADING
+    | uploadStatuses.ERROR,
+};
+
+export type uploadListingType = {
+  title: string,
+  +images: Array<string>,
+  +description?: string,
+  +category: categoryType,
+  +address?: addressType,
+  +telephone?: telephoneType,
+};
+
+export type draftListingType = {
+  +title?: string,
+  +images: Array<string>,
+  +description?: string,
+  +category: categoryType,
+  +address?: addressType,
+  +telephone?: telephoneType,
+};
+
+export type draftListingWithIdType = draftListingType & {
+  id: string,
+};

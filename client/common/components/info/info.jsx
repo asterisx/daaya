@@ -3,7 +3,7 @@
 import React from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {Address, Tel, Email} from '../';
-import type {institutionInfo} from "../../types";
+import type {institutionInfoType} from "../../types";
 
 import {styles} from "./styles";
 
@@ -14,7 +14,7 @@ const Info = ({
   telephones,
   emails,
   workingTimes,
-}: institutionInfo) => (
+}: institutionInfoType) => (
   <View>
     <Separator />
     <FlatList

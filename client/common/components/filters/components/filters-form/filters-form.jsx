@@ -6,14 +6,14 @@ import {Slider, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {Circle} from 'react-native-maps';
 
-import type {category, searchFilterType} from '../../../../types';
+import type {categoryType, searchFilterType} from '../../../../types';
 import {colors, commonStyles} from '../../../../styles';
 import {headerPadding} from '../../../header/styles';
 import MapView from '../../../map-view';
 
 type Props = {
   onApplyFilters: searchFilterType => void,
-  categories: Array<category>,
+  categories: Array<categoryType>,
   onClose: () => {},
   currentFilters?: searchFilterType,
 };
@@ -112,7 +112,7 @@ const FiltersForm = ({
             ]}>
             <View>
               <ScrollView horizontal>
-                {categories.map((cat: category) => (
+                {categories.map((cat: categoryType) => (
                   <TouchableOpacity
                     onPress={() =>
                       setSelectedCategories(categories =>

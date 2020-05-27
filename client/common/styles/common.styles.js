@@ -1,5 +1,13 @@
 import {StyleSheet} from 'react-native';
 
+export const colors = {
+  primary: '#1565c0',
+  success: '#8bc34a',
+  danger: 'red',
+  warning: '#F2784B',
+  secondary: '#ecf0f1',
+};
+
 const flexRow = {
   flexDirection: 'row',
 };
@@ -71,6 +79,9 @@ export const commonStyles = StyleSheet.create({
     flex: 1,
   },
   flexRow: flexRow,
+  flexRowReverse: {
+    flexDirection: 'row-reverse',
+  },
   flexWrap: {
     flexWrap: 'wrap',
   },
@@ -105,10 +116,31 @@ export const commonStyles = StyleSheet.create({
   alignSelfEnd: {
     alignSelf: 'flex-end',
   },
+  backgroundPrimary: {
+    backgroundColor: colors.primary,
+  },
+  backgroundDanger: {
+    backgroundColor: colors.danger,
+  },
+  backgroundSecondary: {
+    backgroundColor: colors.secondary,
+  },
+  justifyContentCenter: {
+    justifyContent: 'center',
+  },
+  alignItemsCenter: {
+    alignItems: 'stretch',
+  },
+  paddingHorizontal5: {
+    paddingHorizontal: 5,
+  },
+  paddingVertical5: {
+    paddingVertical: 5,
+  },
+  paddingVertical10: {
+    paddingVertical: 10,
+  },
+  marginHorizontal10: {
+    marginHorizontal: 10,
+  },
 });
-
-export const colors = {
-  primary: '#1565c0',
-  success: '#8bc34a',
-  danger: 'red',
-};
