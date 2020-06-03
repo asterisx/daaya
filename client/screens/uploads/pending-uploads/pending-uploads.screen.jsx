@@ -7,12 +7,16 @@ import {connect} from 'react-redux';
 import type {listingType} from '../../../common/types';
 import {AddListing, EditListing, UploadCard} from '../../../common/components';
 import {
-    deleteListingThunk,
-    getMyListingsThunk, retryListingThunk,
+  deleteListingThunk,
+  getMyListingsThunk,
+  retryListingThunk,
 } from '../../../store/thunks';
 import {deletingStatuses, uploadStatuses} from '../../../common/constants';
 import {commonStyles} from '../../../common/styles';
-import {cancelUploadListing} from '../../../store/actions/profile';
+import {
+  cancelUpdateListing,
+  cancelUploadListing,
+} from '../../../store/actions/profile';
 
 type Props = {
   listings: Array<
@@ -28,10 +32,16 @@ type Props = {
     },
   >,
   cancelUpload: ({id: string}) => void,
+  cancelUpdate: ({id: string}) => void,
   onRetry: ({id: string}) => void,
 };
 
-const PendingUploadsScreen = ({listings, cancelUpload, onRetry}: Props) => {
+const PendingUploadsScreen = ({
+  listings,
+  cancelUpload,
+  cancelUpdate,
+  onRetry,
+}: Props) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [listingToEdit, setListingToEdit] = useState();
 
@@ -72,6 +82,7 @@ const PendingUploadsScreen = ({listings, cancelUpload, onRetry}: Props) => {
             onReUpload={() => onRetry({id: listing.id})}
             deletingStatus={deletingStatus}
             cancelUpload={() => cancelUpload({id: listing.id})}
+            cancelUpdate={() => cancelUpdate({id: listing.id})}
           />
         )}
         keyExtractor={item => item.listing.id}
@@ -109,6 +120,7 @@ const mapDispatchToProps = {
   getListings: getMyListingsThunk,
   deleteListing: deleteListingThunk,
   cancelUpload: cancelUploadListing,
+  cancelUpdate: cancelUpdateListing,
   onRetry: retryListingThunk,
 };
 
