@@ -22,11 +22,6 @@ export const styles = StyleSheet.create({
     width,
     height: '100%',
   },
-  fullScreenContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   options: {
     width: '100%',
     flexDirection: 'row',

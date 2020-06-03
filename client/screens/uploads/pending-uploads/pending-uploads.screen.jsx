@@ -6,7 +6,10 @@ import {connect} from 'react-redux';
 
 import type {listingType} from '../../../common/types';
 import {AddListing, EditListing, UploadCard} from '../../../common/components';
-import {deleteListingThunk, getMyListingsThunk} from '../../../store/thunks';
+import {
+    deleteListingThunk,
+    getMyListingsThunk, retryListingThunk,
+} from '../../../store/thunks';
 import {deletingStatuses, uploadStatuses} from '../../../common/constants';
 import {commonStyles} from '../../../common/styles';
 import {cancelUploadListing} from '../../../store/actions/profile';
@@ -28,11 +31,7 @@ type Props = {
   onRetry: ({id: string}) => void,
 };
 
-const PendingUploadsScreen = ({
-  listings,
-  cancelUpload,
-  onRetry,
-}: Props) => {
+const PendingUploadsScreen = ({listings, cancelUpload, onRetry}: Props) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [listingToEdit, setListingToEdit] = useState();
 
@@ -110,6 +109,7 @@ const mapDispatchToProps = {
   getListings: getMyListingsThunk,
   deleteListing: deleteListingThunk,
   cancelUpload: cancelUploadListing,
+  onRetry: retryListingThunk,
 };
 
 export default connect(

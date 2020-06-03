@@ -5,7 +5,12 @@ export const uploadStatuses = {
   NONE: 'NONE',
   CANCELLING: 'CANCELLING',
   CANCELLED: 'CANCELLED',
+  CANT_CANCEL: 'CANT_CANCEL',
   CANCEL_ERROR: 'CANCEL_ERROR',
+  UPDATING: 'UPDATING',
+  UPDATED: 'UPDATED',
+  UPDATE_ERROR: 'UPDATE_ERROR',
+  CANCEL_UPDATE: 'CANCEL_UPDATE',
 };
 
 export const deletingStatuses = {

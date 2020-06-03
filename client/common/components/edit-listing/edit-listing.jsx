@@ -13,6 +13,7 @@ import type {
   listingType,
   uploadListingType,
 } from '../../types';
+import {showMessage} from 'react-native-flash-message';
 
 type Props = {
   categories?: Array<categoryType>,
@@ -36,7 +37,15 @@ export const EditListing = ({
       onClose={onClose}
       categories={categories}
       addListing={lis => addListing({...lis, id: listing.id})}
-      saveDraft={lis => saveDraft({...lis, id: listing.id})}
+      saveDraft={lis => {
+        saveDraft({...lis, id: listing.id});
+        showMessage({
+          message: 'Listing saved as draft!',
+          description: lis.title,
+          type: 'info',
+          icon: 'info',
+        });
+      }}
       listing={listing}
     />
   </Modal>
@@ -46,9 +55,18 @@ const mapStateToProps = ({meta: {categories}}) => ({
   categories,
 });
 
-const mapDispatchToProps = {addListing: addListingThunk, saveDraft: updateDraft};
+const mapDispatchToProps = {
+  addListing: addListingThunk,
+  saveDraft: updateDraft,
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
+  (propsFromState, propsFromDispatch, ownProps) => ({
+    ...propsFromState,
+    ...propsFromDispatch,
+    ...ownProps,
+    addListing: ownProps.addListing || propsFromDispatch.addListing,
+  }),
 )(EditListing);

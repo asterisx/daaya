@@ -143,7 +143,14 @@ export default {
       setTimeout(() => {
         const newListing = {...listing, id: listings.length + 1};
         resolve(newListing);
-      }, 10000);
+      }, 1000);
+    }),
+  updateListing: ({listing}) =>
+    new Promise((resolve, reject) => {
+      console.log('updateListing');
+      setTimeout(() => {
+        resolve(listing);
+      }, 1000);
     }),
   deleteListing: ({id}) =>
     new Promise((resolve, reject) => {
@@ -180,7 +187,7 @@ export default {
         );
       }, Math.random(1) * 1000);
     }),
-  uploadImage: ({image, listingId}) =>
+  uploadImage: ({image, listingId, isUpdate}) =>
     new Promise((resolve, reject) => {
       setTimeout(() => {
         console.log('uploadImage');
@@ -188,6 +195,13 @@ export default {
       }, Math.random(1) * 5000);
     }),
   deleteUploadedImagesForListing: ({listingId}) =>
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        console.log('deleteUploadedImagesForListing');
+        resolve();
+      }, Math.random(1) * 5000);
+    }),
+  deleteUpdatedImagesForListing: ({listingId}) =>
     new Promise((resolve, reject) => {
       setTimeout(() => {
         console.log('deleteUploadedImagesForListing');

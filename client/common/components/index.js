@@ -12,7 +12,8 @@ import {HomeHeader, SimpleHeader, SearchHeader, HeaderWrapper} from './header';
 import UploadCard from './upload-card';
 import InfiniteRefreshableScrollView from './infinite-refreshable-scrolll-view';
 import UploadForm from './upload-form';
-import EditListing from "./edit-listing";
+import EditListing from './edit-listing';
+import ScreenLoader from './screen-loader';
 
 export {
   ActionButton,
@@ -33,4 +34,5 @@ export {
   UploadCard,
   InfiniteRefreshableScrollView,
   UploadForm,
+  ScreenLoader,
 };

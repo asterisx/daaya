@@ -26,23 +26,21 @@ const DraftListingsReducer = (
 ): State => {
   switch (action.type) {
     case SAVE_DRAFT_LISTING:
+    case UPDATE_DRAFT_LISTING:
       const {listing}: {listing: draftListingWithIdType} = action;
-      return {...state, listings: [listing, ...state.listings]};
+      return {
+        ...state,
+        listings: [
+          listing,
+          ...state.listings.filter(({id}) => id !== listing.id),
+        ],
+      };
     case DELETE_DRAFT_LISTING:
       const {id}: {id: string} = action;
       return {
         ...state,
         listings: state.listings.filter(listing => listing.id !== id),
       };
-    case UPDATE_DRAFT_LISTING: {
-      const {listing}: {listing: draftListingWithIdType} = action;
-      return {
-        ...state,
-        listings: state.listings.map(lis =>
-          lis.id === listing.id ? listing : lis,
-        ),
-      };
-    }
     default:
       return state;
   }

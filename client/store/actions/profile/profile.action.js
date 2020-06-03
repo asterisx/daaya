@@ -1,4 +1,5 @@
 // @flow
+
 import uuid from 'react-native-uuid';
 
 import type {
@@ -19,6 +20,16 @@ export const CANCEL_UPLOAD_ERROR = 'CANCEL_UPLOAD_ERROR';
 export const SAVE_DRAFT_LISTING = 'SAVE_DRAFT_LISTING';
 export const DELETE_DRAFT_LISTING = 'DELETE_DRAFT_LISTING';
 export const UPDATE_DRAFT_LISTING = 'UPDATE_DRAFT_LISTING';
+
+export const UPDATE_LISTING = 'UPDATE_LISTING';
+export const UPDATE_LISTING_SUCCESS = 'UPDATE_LISTING_SUCCESS';
+export const UPDATE_LISTING_ERROR = 'UPDATE_LISTING_ERROR';
+
+export const CANCEL_UPDATE_LISTING = 'CANCEL_UPDATE_LISTING';
+export const CANCEL_UPLOAD_LISTING_SUCCESS = 'CANCEL_UPLOAD_LISTING_SUCCESS';
+export const CANCEL_UPLOAD_LISTING_ERROR = 'CANCEL_UPLOAD_LISTING_ERROR';
+
+export const ACTION_CANT_CANCEL = 'ACTION_CANT_CANCEL';
 
 export const DELETE_LISTING = 'DELETE_LISTING';
 export const DELETE_LISTING_SUCCESS = 'DELETE_LISTING_SUCCESS';
@@ -52,7 +63,6 @@ export type addListingSuccessType = {
 export const addListingSuccess = ({
   id,
 }: {
-  listing: listingType,
   id: string,
 }): addListingSuccessType => ({
   type: ADD_LISTING_SUCCESS,
@@ -99,7 +109,7 @@ export const deleteListingSuccess = ({
 export type deleteListingErrorType = {
   +type: string,
   +id: string,
-  +error: string
+  +error: string,
 };
 
 export const deleteListingError = ({
@@ -157,12 +167,14 @@ export const cancelUploadListingError = ({
 
 export type saveDraftType = {
   type: string,
-  listing: draftListingType,
+  listing: draftListingType | listingType,
 };
 
-export const saveDraft = (listing: draftListingType): saveDraftType => ({
+export const saveDraft = (
+  listing: draftListingType | listingType,
+): saveDraftType => ({
   type: SAVE_DRAFT_LISTING,
-  listing: {id: uuid.v1(), ...listing},
+  listing: {id: listing.id ? listing.id : uuid.v1(), ...listing},
 });
 
 export type updateDraftType = {
@@ -235,4 +247,73 @@ export const myListingsError = ({
 }): myListingsErrorType => ({
   type: GET_MY_LISTINGS_ERROR,
   error,
+});
+
+export const updateListing = ({
+  listing,
+}: {
+  listing: listingType,
+}): addListingType => ({
+  type: UPDATE_LISTING,
+  listing,
+});
+
+export const updateListingSuccess = ({
+  listing,
+}: {
+  listing: listingType,
+}): addListingType => ({
+  type: UPDATE_LISTING_SUCCESS,
+  listing,
+});
+
+export const updateListingError = ({
+  id,
+  error,
+}: {
+  id: string,
+  error: string,
+}): addListingErrorType => ({
+  type: UPDATE_LISTING_ERROR,
+  id,
+  error,
+});
+
+export const cancelUpdateListing = ({
+  id,
+}: {
+  id: string,
+}): addListingSuccessType => ({
+  type: CANCEL_UPDATE_LISTING,
+  id,
+});
+
+export const cancelUpdateListingSuccess = ({
+  id,
+}: {
+  id: string,
+}): cancelUploadListingType => ({
+  type: CANCEL_UPLOAD_LISTING_SUCCESS,
+  id,
+});
+
+export const cancelUpdateListingError = ({
+  id,
+  error,
+}: {
+  id: string,
+  error: string,
+}): cancelUploadListingErrorType => ({
+  type: CANCEL_UPLOAD_LISTING_ERROR,
+  id,
+  error,
+});
+
+export const markListingCantCancel = ({
+  id,
+}: {
+  id: string,
+}): addListingSuccessType => ({
+  id,
+  type: ACTION_CANT_CANCEL,
 });
