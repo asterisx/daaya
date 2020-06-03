@@ -40,11 +40,11 @@ export const addListingThunk = (
   const uploadData = async () => {
     const actions = [
       ...(listing.images
-        ? listing.images.map(image =>
+        ? listing.images.map(image => async () =>
             API.uploadImage({image, listingId: listing.id}),
           )
         : []),
-      await API.addListing({listing: {...listing, images: []}}),
+      async () => API.addListing({listing: {...listing, images: []}}),
     ];
 
     for (let i = 0; i < actions.length; i++) {
@@ -58,7 +58,7 @@ export const addListingThunk = (
         await API.deleteUploadedImagesForListing({listingId: listing.id});
         return false;
       }
-      await actions[i];
+      await actions[i]();
     }
 
     return true;
@@ -153,11 +153,11 @@ export const updateListingThunk = (listing: listingType) => async (
   const uploadData = async () => {
     const actions = [
       ...(listing.images
-        ? listing.images.map(image =>
+        ? listing.images.map(image => async () =>
             API.uploadImage({image, listingId: listing.id, isUpdate: true}),
           )
         : []),
-      await API.updateListing({listing: {...listing, images: []}}),
+      async () => API.updateListing({listing: {...listing, images: []}}),
     ];
     let updatedListing;
     for (let i = 0; i < actions.length; i++) {
@@ -173,9 +173,9 @@ export const updateListingThunk = (listing: listingType) => async (
       }
       if (i === actions.length - 1) {
         dispatch(markListingCantCancel({id: listing.id}));
-        updatedListing = await actions[i];
+        updatedListing = await actions[i]();
       } else {
-        await actions[i];
+        await actions[i]();
       }
     }
 

@@ -158,10 +158,8 @@ const ProfileReducer = (
               ? {...l, addListingStatus: uploadStatuses.CANCELLING}
               : l,
         ),
-        oldListings: state.oldListings.map<listingType>((l: newListingType) =>
-          l.listing.id === id
-            ? {...l, addListingStatus: uploadStatuses.CANCELLING}
-            : l,
+        oldListings: state.oldListings.map<listingType>((l: listingType) =>
+          l.id === id ? {...l, addListingStatus: uploadStatuses.CANCELLING} : l,
         ),
       };
     }
@@ -172,8 +170,8 @@ const ProfileReducer = (
         newListings: state.newListings.filter(
           (l: newListingType) => l.listing.id !== id,
         ),
-        oldListings: state.oldListings.map<listingType>((l: newListingType) =>
-          l.listing.id === id ? {...l, addListingStatus: undefined} : l,
+        oldListings: state.oldListings.map<listingType>((l: listingType) =>
+          l.id === id ? {...l, addListingStatus: undefined} : l,
         ),
       };
     }
@@ -187,8 +185,8 @@ const ProfileReducer = (
               ? {...l, addListingStatus: uploadStatuses.CANCEL_ERROR, error}
               : l,
         ),
-        oldListings: state.oldListings.map<listingType>((l: newListingType) =>
-          l.listing.id === id
+        oldListings: state.oldListings.map<listingType>((l: listingType) =>
+          l.id === id
             ? {...l, addListingStatus: uploadStatuses.CANCEL_ERROR, error}
             : l,
         ),
@@ -204,8 +202,8 @@ const ProfileReducer = (
               ? {...l, addListingStatus: uploadStatuses.CANT_CANCEL}
               : l,
         ),
-        oldListings: state.oldListings.map<listingType>((l: newListingType) =>
-          l.listing.id === id
+        oldListings: state.oldListings.map<listingType>((l: listingType) =>
+          l.id === id
             ? {...l, addListingStatus: uploadStatuses.CANT_CANCEL}
             : l,
         ),

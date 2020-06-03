@@ -34,7 +34,7 @@ type Props = {
     },
   >,
   deleteListing: ({id: string}) => void,
-  updateListing: ({listing: myListingType}) => void,
+  updateListing: (listing: myListingType) => void,
   onReUpdate: ({id: string}) => void,
   cancelUpdate: ({id: string}) => void,
   fetchingListingsStatus:
@@ -121,7 +121,7 @@ const MyUploadsScreen = ({
           listingId={listingIdToEdit}
           showForm={showEditModal}
           onClose={() => setShowEditModal(false)}
-          addListing={listing => updateListing({listing})}
+          addListing={listing => updateListing(listing)}
         />
       )}
     </View>
