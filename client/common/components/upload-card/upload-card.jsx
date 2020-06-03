@@ -30,9 +30,12 @@ type Props = {
   image?: string,
   category?: string,
   onReUpload?: () => {},
+  onReUpdate?: () => {},
   onDelete?: () => {},
   onEdit?: () => {},
   cancelUpload?: () => {},
+  cancelUpdate?: () => {},
+  openListing?: () => {},
   status?:
     | uploadStatuses.UPLOADED
     | uploadStatuses.UPLOADING
@@ -62,13 +65,30 @@ const confirmAction = ({title, message, onAffirmation, onCancel = () => {}}) =>
 
 const CardContent = ({
   onReUpload,
+  onReUpdate,
   onDelete,
   onEdit,
   cancelUpload,
   status,
   deletingStatus,
+  cancelUpdate,
 }) => (
   <>
+    {status === uploadStatuses.CANT_CANCEL && (
+      <View
+        style={[
+          commonStyles.flexRow,
+          commonStyles.spaceBetween,
+          commonStyles.marginTop10,
+        ]}>
+        <StatusText
+          text="Uploading"
+          icon="hourglass-half"
+          type="font-awesome"
+          size={14}
+        />
+      </View>
+    )}
     {status === uploadStatuses.UPLOADING && (
       <View
         style={[
@@ -97,6 +117,40 @@ const CardContent = ({
         />
       </View>
     )}
+    {status === uploadStatuses.UPLOADED && (
+      <View
+        style={[
+          commonStyles.flexRow,
+          commonStyles.spaceBetween,
+          commonStyles.marginTop10,
+        ]}>
+        <ActionButton
+          backgroundColor={colors.primary}
+          icon="edit"
+          onClick={onEdit}
+          text="Edit"
+        />
+        <ActionButton
+          disabled={
+            deletingStatus && deletingStatus === deletingStatuses.DELETING
+          }
+          backgroundColor={colors.danger}
+          icon="delete"
+          onClick={() =>
+            confirmAction({
+              title: 'Delete the listing?',
+              message: 'This action cannot be undone',
+              onAffirmation: onDelete,
+            })
+          }
+          text={
+            deletingStatus && deletingStatus === deletingStatuses.DELETING
+              ? 'Deleting'
+              : 'Delete'
+          }
+        />
+      </View>
+    )}
     {status === uploadStatuses.ERROR && (
       <View
         style={[
@@ -118,7 +172,9 @@ const CardContent = ({
           text="Retry"
         />
         <ActionButton
-          disabled={deletingStatus && deletingStatuses.DELETING}
+          disabled={
+            deletingStatus && deletingStatus === deletingStatuses.DELETING
+          }
           backgroundColor={colors.danger}
           icon="delete"
           onClick={() =>
@@ -137,11 +193,7 @@ const CardContent = ({
       </View>
     )}
     {status === uploadStatuses.CANCELLING && (
-      <View
-        style={[
-          commonStyles.flexRowReverse,
-          commonStyles.marginTop10,
-        ]}>
+      <View style={[commonStyles.flexRowReverse, commonStyles.marginTop10]}>
         <ActionButton
           disabled
           backgroundColor={colors.danger}
@@ -169,6 +221,74 @@ const CardContent = ({
         />
       </View>
     )}
+    {status === uploadStatuses.UPDATING && (
+      <View
+        style={[
+          commonStyles.flexRow,
+          commonStyles.spaceBetween,
+          commonStyles.marginTop10,
+        ]}>
+        <StatusText
+          text="Updating"
+          icon="hourglass-half"
+          type="font-awesome"
+          size={14}
+        />
+        <ActionButton
+          backgroundColor={colors.danger}
+          icon="close"
+          onClick={() =>
+            confirmAction({
+              title: 'Cancel Updating?',
+              onAffirmation: cancelUpdate,
+            })
+          }
+          text="Cancel"
+          type="font-awesome"
+        />
+      </View>
+    )}
+    {status === uploadStatuses.UPDATE_ERROR && (
+      <View
+        style={[
+          commonStyles.flexRow,
+          commonStyles.spaceBetween,
+          commonStyles.marginTop10,
+        ]}>
+        <ActionButton
+          backgroundColor={colors.primary}
+          icon="edit"
+          onClick={onEdit}
+          text="Edit"
+        />
+        <ActionButton
+          backgroundColor={colors.danger}
+          icon="undo"
+          type="font-awesome"
+          onClick={onReUpdate}
+          text="Re Upload"
+        />
+        <ActionButton
+          disabled={
+            deletingStatus && deletingStatus === deletingStatuses.DELETING
+          }
+          backgroundColor={colors.danger}
+          icon="delete"
+          onClick={() =>
+            confirmAction({
+              title: 'Delete the listing?',
+              message: 'This action cannot be undone',
+              onAffirmation: onDelete,
+            })
+          }
+          text={
+            deletingStatus && deletingStatus === deletingStatuses.DELETING
+              ? 'Deleting'
+              : 'Delete'
+          }
+        />
+      </View>
+    )}
   </>
 );
 
@@ -177,11 +297,14 @@ const UploadCard = ({
   image,
   category,
   onReUpload,
+  onReUpdate,
   onDelete,
   onEdit,
   cancelUpload,
   status,
   deletingStatus,
+  cancelUpdate,
+  openListing,
 }: Props) => (
   <TouchableOpacity
     onPress={() => status === uploadStatuses.UPLOADED && openListing()}
@@ -209,6 +332,8 @@ const UploadCard = ({
         deletingStatus={deletingStatuses}
         onEdit={onEdit}
         status={status}
+        cancelUpdate={cancelUpdate}
+        onReUpdate={onReUpdate}
       />
     </Card>
   </TouchableOpacity>

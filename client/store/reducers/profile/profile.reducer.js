@@ -2,11 +2,15 @@
 
 import type {listingType, myListingType} from '../../../common/types';
 import {
+  ACTION_CANT_CANCEL,
   ADD_LISTING,
   ADD_LISTING_ERROR,
   ADD_LISTING_SUCCESS,
+  CANCEL_UPDATE_LISTING,
   CANCEL_UPLOAD_ERROR,
   CANCEL_UPLOAD_LISTING,
+  CANCEL_UPLOAD_LISTING_ERROR,
+  CANCEL_UPLOAD_LISTING_SUCCESS,
   CANCEL_UPLOAD_SUCCESS,
   DELETE_LISTING,
   DELETE_LISTING_ERROR,
@@ -15,11 +19,17 @@ import {
   GET_MY_LISTINGS_ERROR,
   GET_MY_LISTINGS_SUCCESS,
   REMOVE_PENDING,
+  UPDATE_LISTING,
+  UPDATE_LISTING_ERROR,
+  UPDATE_LISTING_SUCCESS,
 } from '../../actions/profile';
 import type {
   addListingErrorType,
-  addListingSuccessType, cancelUploadListingErrorType,
-  cancelUploadListingType, deleteListingErrorType, deleteListingType,
+  addListingSuccessType,
+  cancelUploadListingErrorType,
+  cancelUploadListingType,
+  deleteListingErrorType,
+  deleteListingType,
 } from '../../actions/profile';
 import {fetchingStatuses} from '../../actions';
 import {deletingStatuses, uploadStatuses} from '../../../common/constants';
@@ -61,13 +71,17 @@ const initialState: State = {
 
 const ProfileReducer = (
   state: State = initialState,
-  action: addListingSuccessType | addListingErrorType | cancelUploadListingType | cancelUploadListingErrorType | deleteListingType | deleteListingErrorType,
+  action:
+    | addListingSuccessType
+    | addListingErrorType
+    | cancelUploadListingType
+    | cancelUploadListingErrorType
+    | deleteListingType
+    | deleteListingErrorType,
 ): State => {
   switch (action.type) {
     case ADD_LISTING: {
-      const {
-        listing,
-      }: {listing: listingType, index: number, isDraft: boolean} = action;
+      const {listing}: {listing: listingType} = action;
       return {
         ...state,
         newListings: [
@@ -131,6 +145,117 @@ const ProfileReducer = (
             l.listing.id === id
               ? {...l, addListingStatus: uploadStatuses.CANCEL_ERROR, error}
               : l,
+        ),
+      };
+    }
+    case CANCEL_UPDATE_LISTING: {
+      const {id}: {id: string} = action;
+      return {
+        ...state,
+        newListings: state.newListings.map<newListingType>(
+          (l: newListingType) =>
+            l.listing.id === id
+              ? {...l, addListingStatus: uploadStatuses.CANCELLING}
+              : l,
+        ),
+        oldListings: state.oldListings.map<listingType>((l: newListingType) =>
+          l.listing.id === id
+            ? {...l, addListingStatus: uploadStatuses.CANCELLING}
+            : l,
+        ),
+      };
+    }
+    case CANCEL_UPLOAD_LISTING_SUCCESS: {
+      const {id}: {id: string} = action;
+      return {
+        ...state,
+        newListings: state.newListings.filter(
+          (l: newListingType) => l.listing.id !== id,
+        ),
+        oldListings: state.oldListings.map<listingType>((l: newListingType) =>
+          l.listing.id === id ? {...l, addListingStatus: undefined} : l,
+        ),
+      };
+    }
+    case CANCEL_UPLOAD_LISTING_ERROR: {
+      const {id, error}: {id: string, error: string} = action;
+      return {
+        ...state,
+        newListings: state.newListings.map<newListingType>(
+          (l: newListingType) =>
+            l.listing.id === id
+              ? {...l, addListingStatus: uploadStatuses.CANCEL_ERROR, error}
+              : l,
+        ),
+        oldListings: state.oldListings.map<listingType>((l: newListingType) =>
+          l.listing.id === id
+            ? {...l, addListingStatus: uploadStatuses.CANCEL_ERROR, error}
+            : l,
+        ),
+      };
+    }
+    case ACTION_CANT_CANCEL: {
+      const {id}: {id: string} = action;
+      return {
+        ...state,
+        newListings: state.newListings.map<newListingType>(
+          (l: newListingType) =>
+            l.listing.id === id
+              ? {...l, addListingStatus: uploadStatuses.CANT_CANCEL}
+              : l,
+        ),
+        oldListings: state.oldListings.map<listingType>((l: newListingType) =>
+          l.listing.id === id
+            ? {...l, addListingStatus: uploadStatuses.CANT_CANCEL}
+            : l,
+        ),
+      };
+    }
+    case UPDATE_LISTING: {
+      const {listing}: {listing: listingType} = action;
+      return {
+        ...state,
+        newListings: [
+          {
+            listing,
+            addListingStatus: uploadStatuses.UPDATING,
+            error: undefined,
+          },
+          ...state.newListings,
+        ],
+        oldListings: state.oldListings.map(lis =>
+          lis.id === listing.id
+            ? {...lis, addListingStatus: uploadStatuses.UPDATING}
+            : lis,
+        ),
+      };
+    }
+    case UPDATE_LISTING_SUCCESS: {
+      const {listing}: {listing: listingType} = action;
+      return {
+        ...state,
+        newListings: state.newListings.filter(
+          (l: newListingType) => l.listing.id !== listing.id,
+        ),
+        oldListings: state.oldListings.map(lis =>
+          lis.id === listing.id ? listing : lis,
+        ),
+      };
+    }
+    case UPDATE_LISTING_ERROR: {
+      const {id, error}: {id: string, error: string} = action;
+      return {
+        ...state,
+        newListings: state.newListings.map<newListingType>(
+          (l: newListingType) =>
+            l.listing.id === id
+              ? {...l, addListingStatus: uploadStatuses.UPDATE_ERROR, error}
+              : l,
+        ),
+        oldListings: state.oldListings.map(lis =>
+          lis.id === id
+            ? {...lis, addListingStatus: uploadStatuses.UPDATE_ERROR, error}
+            : lis,
         ),
       };
     }

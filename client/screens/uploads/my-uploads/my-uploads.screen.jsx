@@ -6,11 +6,10 @@ import {View} from 'react-native';
 import debounce from 'lodash.debounce';
 
 import type {myListingType} from '../../../common/types';
-import {fetchingStatuses} from '../../../store/actions';
+import {fetchingStatuses, cancelUpdateListing} from '../../../store/actions';
 import {commonStyles} from '../../../common/styles';
 import {
   AddListing,
-  EditListing,
   InfiniteRefreshableScrollView,
   UploadCard,
 } from '../../../common/components';
@@ -18,9 +17,12 @@ import {useDelayedLoader} from '../../../common/hooks';
 import {
   deleteListingThunk,
   getMyListingsThunk,
+  reUpdateListingThunk,
+  updateListingThunk,
 } from '../../../store/thunks/profile';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
-import {deletingStatuses} from '../../../common/constants';
+import {deletingStatuses, uploadStatuses} from '../../../common/constants';
+import {UpdateListing} from './components';
 
 type Props = {
   listings: Array<
@@ -32,6 +34,9 @@ type Props = {
     },
   >,
   deleteListing: ({id: string}) => void,
+  updateListing: ({listing: myListingType}) => void,
+  onReUpdate: ({id: string}) => void,
+  cancelUpdate: ({id: string}) => void,
   fetchingListingsStatus:
     | fetchingStatuses.FETCHING
     | fetchingStatuses.ERROR
@@ -45,6 +50,9 @@ const MyUploadsScreen = ({
   deleteListing,
   fetchingListingsStatus,
   navigation,
+  updateListing,
+  onReUpdate,
+  cancelUpdate,
 }: Props) => {
   const showLoader = useDelayedLoader(
     fetchingListingsStatus === fetchingStatuses.FETCHING ||
@@ -55,7 +63,7 @@ const MyUploadsScreen = ({
   const deleteLoadNext = useCallback(debounce(getListings, 1000), []);
 
   const [showEditModal, setShowEditModal] = useState(false);
-  const [listingToEdit, setListingToEdit] = useState();
+  const [listingIdToEdit, setListingIdToEdit] = useState();
 
   useEffect(() => {
     getListings({});
@@ -82,12 +90,12 @@ const MyUploadsScreen = ({
             openListing={() =>
               navigation.navigate('ListingDetail', {id: item.id})
             }
-            status={item.status}
+            status={item.addListingStatus}
             title={item.title}
             category={item.category}
             image={item.image}
             onEdit={() => {
-              setListingToEdit(item);
+              setListingIdToEdit(item.id);
               setShowEditModal(true);
             }}
             onDelete={() => {
@@ -101,16 +109,21 @@ const MyUploadsScreen = ({
               }
             }}
             deletingStatus={item.deletingStatus}
+            cancelUpdate={() => cancelUpdate({id: item.id})}
+            onReUpdate={() => onReUpdate({id: item.id})}
           />
         )}
         keyExtractor={item => item.id}
       />
       <AddListing />
-      <EditListing
-        listing={listingToEdit}
-        showForm={showEditModal}
-        onClose={() => setShowEditModal(false)}
-      />
+      {showEditModal && (
+        <UpdateListing
+          listingId={listingIdToEdit}
+          showForm={showEditModal}
+          onClose={() => setShowEditModal(false)}
+          addListing={listing => updateListing({listing})}
+        />
+      )}
     </View>
   );
 };
@@ -121,6 +134,7 @@ const mapStateToProps = ({
   listings:
     oldListings.map(listing => ({
       ...listing,
+      addListingStatus: listing.addListingStatus || uploadStatuses.UPLOADED,
       deletingStatus: listingsForDeletion.find(
         ({id: lid}) => lid === listing.id,
       )
@@ -133,6 +147,9 @@ const mapStateToProps = ({
 const mapDispatchToProps = {
   getListings: getMyListingsThunk,
   deleteListing: deleteListingThunk,
+  cancelUpdateListing,
+  updateListing: updateListingThunk,
+  onReUpdate: reUpdateListingThunk,
 };
 
 export default connect(

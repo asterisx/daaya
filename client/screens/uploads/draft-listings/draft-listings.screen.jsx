@@ -71,11 +71,13 @@ const DraftListingsScreen = ({listings, deleteListing, addListing}: Props) => {
         keyExtractor={item => item.id}
       />
       <AddListing />
-      <EditListing
-        listing={listingToEdit}
-        showForm={showEditModal}
-        onClose={() => setShowEditModal(false)}
-      />
+      {showEditModal && (
+        <EditListing
+          listing={listingToEdit}
+          showForm={showEditModal}
+          onClose={() => setShowEditModal(false)}
+        />
+      )}
     </View>
   );
 };

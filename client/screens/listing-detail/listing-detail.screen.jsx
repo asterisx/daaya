@@ -2,19 +2,12 @@
 
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {
-  Image,
-  View,
-  ActivityIndicator,
-  Button,
-  ScrollView,
-  Text,
-} from 'react-native';
+import {Image, View, Button, ScrollView, Text} from 'react-native';
 import Swiper from 'react-native-swiper';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
 import {useSafeArea} from 'react-native-safe-area-context';
 
-import {Address, Tel} from '../../common/components';
+import {Address, ScreenLoader, Tel} from '../../common/components';
 import type {listingType} from '../../common/types';
 import {styles} from './styles';
 import {getListingThunk} from '../../store/thunks/listing';
@@ -113,12 +106,7 @@ const ListingDetailScreen = ({navigation, getListing, listing}: Props) => {
     listing.fetchingListingStatus === fetchingStatuses.FETCHING ||
     listing.fetchingListingStatus === fetchingStatuses.NONE
   ) {
-    return showLoader ? (
-      <View style={styles.fullScreenContainer}>
-        <ActivityIndicator />
-        <Text style={styles.marginTop20}>Loading...</Text>
-      </View>
-    ) : null;
+    return showLoader ? <ScreenLoader /> : null;
   } else if (listing.fetchingListingStatus === fetchingStatuses.ERROR) {
     return (
       <View style={styles.fullScreenContainer}>
