@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 import {Auth} from 'aws-amplify';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import {
   FacebookLoginButton,
   GoogleLoginButton,
@@ -29,7 +29,11 @@ const EmailLoginButton = createButton({
 
 const withAuth = ({
   Component,
-  Message,
+  Message = (
+    <View>
+      <Text>Login to continue</Text>
+    </View>
+  ),
 }: {
   Component: *,
   Message: *,

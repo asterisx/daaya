@@ -9,12 +9,13 @@ import {
 } from '../screens';
 import {HeaderWrapper, MenuHeader} from '../common/components/header';
 import {Icon} from 'react-native-elements';
+import {withAuth} from '../common/components';
 
 const screens = {
   Drafts: {
     screen: createStackNavigator({
       Uploads: {
-        screen: DraftListingsScreen,
+        screen: withAuth({Component: DraftListingsScreen}),
         navigationOptions: ({navigation}) => ({
           header: () => (
             <MenuHeader
@@ -48,7 +49,7 @@ const screens = {
   PendingUploads: {
     screen: createStackNavigator({
       PendingUploads: {
-        screen: PendingUploadsScreen,
+        screen: withAuth({Component: PendingUploadsScreen}),
         navigationOptions: ({navigation}) => ({
           header: () => (
             <MenuHeader
@@ -75,7 +76,7 @@ const screens = {
   MyUploads: {
     screen: createStackNavigator({
       Uploads: {
-        screen: MyUploadsScreen,
+        screen: withAuth({Component: MyUploadsScreen}),
         navigationOptions: ({navigation}) => ({
           header: () => (
             <MenuHeader

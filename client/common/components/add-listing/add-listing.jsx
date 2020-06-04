@@ -14,6 +14,7 @@ import type {
   draftListingType,
   uploadListingType,
 } from '../../types';
+import withAuth from '../with-auth';
 
 type Props = {
   categories?: Array<categoryType>,
@@ -53,4 +54,4 @@ const mapDispatchToProps = {addListing: addListingThunk, saveDraft};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(AddListing);
+)(withAuth({Component: AddListing}));

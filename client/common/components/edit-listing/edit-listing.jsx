@@ -3,6 +3,7 @@
 import React from 'react';
 import {Modal} from 'react-native';
 import {connect} from 'react-redux';
+import {showMessage} from 'react-native-flash-message';
 
 import UploadForm from '../upload-form';
 import {addListingThunk} from '../../../store/thunks/profile';
@@ -13,7 +14,7 @@ import type {
   listingType,
   uploadListingType,
 } from '../../types';
-import {showMessage} from 'react-native-flash-message';
+import {withAuth} from "../with-auth";
 
 type Props = {
   categories?: Array<categoryType>,
@@ -69,4 +70,4 @@ export default connect(
     ...ownProps,
     addListing: ownProps.addListing || propsFromDispatch.addListing,
   }),
-)(EditListing);
+)(withAuth({Component: EditListing});
