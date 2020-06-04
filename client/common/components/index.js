@@ -14,6 +14,7 @@ import InfiniteRefreshableScrollView from './infinite-refreshable-scrolll-view';
 import UploadForm from './upload-form';
 import EditListing from './edit-listing';
 import ScreenLoader from './screen-loader';
+import withAuth from './with-auth';
 
 export {
   ActionButton,
@@ -35,4 +36,5 @@ export {
   InfiniteRefreshableScrollView,
   UploadForm,
   ScreenLoader,
+  withAuth,
 };
