@@ -31,5 +31,11 @@
         android:value="Your Google maps API Key Here"/>
       <uses-library android:name="org.apache.http.legacy" android:required="false"/>
     </application>
+    <intent-filter android:label="filter_react_native">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="daaya" />
+    </intent-filter>
 
 </manifest>
