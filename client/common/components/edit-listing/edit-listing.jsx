@@ -70,4 +70,4 @@ export default connect(
     ...ownProps,
     addListing: ownProps.addListing || propsFromDispatch.addListing,
   }),
-)(withAuth({Component: EditListing});
+)(withAuth({Component: EditListing}));
